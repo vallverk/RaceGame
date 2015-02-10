@@ -1,0 +1,105 @@
+Game Ready 3D Model: 041414SSPC
+Vehicle Type: Street Super Car (SSPC)
+Vehicle Reference: Dodge Viper ACR
+Series: Super Cars
+Build Date: 04.14.2014
+
+Mesh/Geometry		Triangles
+
+Vehicle Exterior        7196
+Vehicle Interior        1472
+
+Wheelset HD				8064
+Wheelset LOD 0				960
+Wheelset LOD 1				720
+
+Mesh 041414SSPC
+This mesh contains the following sub-objects:
+body, interior, steering wheel, Whl RL, Whl RR, Whl FL, Whl FR.
+LOD 0 Wheelset used.
+
+Mesh 041414SSPC_v2
+This mesh contains the following sub-objects:
+body, Whl RL, Whl RR, Whl FL, Whl FR.
+LOD 0 Wheelset used.
+interior removed, windows/glass use 041414SSPC-reflective material.
+
+**Do you need object elements to be separated?
+Contact us, we can create sub-objects for you.
+
+
+Materials
+*041414SSPC_bodycolor: paint color of car
+*041414SSPC_trims: color of body/door gaps
+(color should have similar hue as body color, darker, less saturated)
+*041414SSPC_reflective: lights, shiny/reflective trims, exhaust
+*041414SSPC_diffuse: underside, window trims
+*041414SSPC_brakelights: self-illumated, brake lights
+*041414SSPC_wheeltyre: LOD0, LOD1 wheels and tyres
+*041414SSPC_HD_wheeltyre: HD wheels and tyres only
+*041414SSPC_glass: glass windows/windshield, light covers
+*041414SSPC_interior: interior and steering wheel
+*GR3D-driver: driver object, helmet
+
+**NOTE:
+041414SSPC_decal1.png: use as a decal:
+* In Import setting, Enable/Check/Select Alpha is Transparency
+* Select 041414SSPC_bodycolor material
+* Insert into decal slot
+* Adjust Decal Coloring Slider to Zero
+
+**Do you need more materials or less materials?
+Contact us, we can fine tune material assignments for you.
+
+
+Dimensions		Game Unit (1unit=1meter)
+
+Vehicle Exterior        L: 4.4  W: 1.96  H: 1.49
+
+Tyres/Wheels 
+Front	
+Tires		Diameter: .648    Radius: .324  Width: .295
+Wheel		Diameter: .508   Radius: .254
+
+Rear		
+Tires		Diameter: .673    Radius: .337  Width: .315
+Wheel		Diameter: .508   Radius: .254
+
+
+WheelTyre Texture Images (LOD 0 and LOD 1 Wheeltyre ONLY)
+
+* 10+ Wheel Style images are included
+* Static images (example: wheeltyre_type1static) has
+brake calipers included.  Use images when wheels do not spin 
+(example: car selection section)
+* Will NOT work with HD Wheeltyre
+
+HD Wheeltyre Texture
+* Use Wheeltyre_color1.png ONLY
+
+
+Importing to Unity 3D
+
+Importing a Unity Package: 
+* Open a new project or an existing one
+* Assets-->Import Package-->Custom Package-->GR3D_041414SSPC.unitypackage
+* Import into project
+* GR3D 041414SSPC folder imported into project/scene.
+
+FBX Importer Setting
+
+Scale Factor: .01 **
+Mesh Compression: off
+Normals: Import **
+Tangents: Calculate **
+Split Tangents: Checked
+
+
+Support
+Send your questions and concerns to gameready3d@yahoo.com
+
+
+
+
+
+

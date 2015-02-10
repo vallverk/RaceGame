@@ -1,0 +1,87 @@
+Game Ready 3D Model: 021014SSPC
+Vehicle Reference: Lamborghini Reventon
+Original Build Date: 02.10.14
+Series: Street Super Car(SSPC)
+
+Mesh/Geometry				Triangles
+
+Vehicle Body				6715
+Vehicle Interior			1358
+
+Wheelset HD				7320
+Wheelset LOD 0				960
+Wheelset LOD 1				720
+
+
+Mesh 021014SSPC	
+This mesh contains the following sub-objects:
+body, interior, steering wheel, Whl RL, Whl RR, Whl FL, Whl FR.
+LOD 0 Wheelset used.
+
+Mesh 021014SSPC_v2
+This mesh contains the following sub-objects:
+body, Whl RL, Whl RR, Whl FL, Whl FR.
+LOD 0 Wheelset used.
+interior removed, windows/glass use 021014SSPC-reflective material.
+
+Materials
+*021014SSPC_bodycolor: paint color of car
+*021014SSPC_trims: color of body/door gaps
+(color should have similar hue as body color, darker, less saturated)
+*021014SSPC_reflective: lights, shiny/reflective trims, exhaust
+*021014SSPC_diffuse: underside, window trims
+*021014SSPC_brakelights: self-illumated, brake lights
+*021014SSPC_wheeltyre: LOD0, LOD1 wheels and tyres
+*021014SSPC_HD_wheeltyre: HD wheels and tyres only
+*021014SSPC_glass: glass windows/windshield, light covers
+*021014SSPC_interior: interior and steering wheel
+
+Dimensions		Game Unit (1unit=1meter)
+
+Vehicle Exterior        L: 4.7  W: 2.23  H: 1.51
+
+Tyres/Wheels 
+Front		255/35/ZR19
+Tires		Diameter: .645    Radius: .323  Width: .255
+Wheel		Diameter: .483   Radius: .242
+
+Rear		335/30/ZR20
+Tires		Diameter: .71    Radius: .355  Width: .335
+Wheel		Diameter: .508    Radius: .254
+
+WheelTyre Texture Images (LOD 0 and LOD 1 Wheeltyre ONLY)
+
+* 10+ Wheel Style images are included
+* Static images (example: wheeltyre_type1static) has
+brake calipers included.  Use images when wheels do not spin 
+(example: car selection section)
+* Will NOT work with HD Wheeltyre
+
+HD Wheeltyre Texture
+* Use Wheeltyre_color1.png ONLY
+
+
+Importing to Unity 3D
+
+Importing a Unity Package: 
+* Open a new project or an existing one
+* Assets-->Import Package-->Custom Package-->
+GR3D_021014SSPC.unitypackage
+* Import into project
+* GR3D 021014SSPC folder imported into project/scene.
+
+FBX Importer Setting
+
+Scale Factor: .01 **
+Mesh Compression: off
+Normals: Import **
+Tangents: Calculate **
+Split Tangents: Checked
+
+** These settings are very important when re-importing FBX into Unity
+
+
+
+
+
+

@@ -1,0 +1,82 @@
+Game Ready 3D Model: 010614MSCL
+Vehicle Reference: 2010 Ford Shelby GT500
+Original Build Date: 01.06.14
+Series: Muscle Car (MSCL)
+
+Mesh/Geometry				Triangles
+
+Vehicle Body				6232
+
+Wheelset LOD 0				960
+Wheelset LOD 1				720
+Wheelset LOD 2				480
+
+
+Mesh 010614MSCL
+This mesh contains the following sub-objects:
+body, Whl RL, Whl RR, Whl FL, Whl FR.
+(LOD 0 Wheels used)
+
+Materials
+*010614MSCL_bodycolor: paint color of car
+*010614MSCL_trims: color of body/door gaps
+(color should have similar hue as body color, darker, less saturated)
+*010614MSCL_reflective: lights, shiny/reflective trims, exhaust
+*010614MSCL_diffuse: underside, window trims
+*010614MSCL_brakelights: self-illumated, brake lights
+*010614MSCL_wheeltyre: LOD0, LOD1 wheels and tyres
+*010614MSCL_glass: glass windows/windshield, light covers
+
+**NOTE:
+010614MSCL_decal1.png: use as a decal:
+* In Import setting, Check/Select Alpha is Transparency
+* Select 010614MSCL_bodycolor material
+* Insert into decal slot
+* Adjust Decal Coloring Slider to Zero
+
+
+Dimensions		Game Unit (1unit=1meter)
+
+Vehicle Exterior        L: 4.77  W: 2.00  H: 1.69
+
+Tyres/Wheels 
+Front		255/35/ZR19
+Tires		Diameter: .686    Radius: .343  Width: .255
+Wheel		Diameter: .483   Radius: .241
+
+Rear		285/40/ZR19
+Tires		Diameter: .686    Radius: .343  Width: .285
+Wheel		Diameter: .483    Radius: .241
+
+WheelTyre Texture Images
+
+* 10 Wheel Style images are included
+* Static images (example: wheeltyre_type1static) has
+brake calipers included.  Use images when wheels do not spin 
+(example: car selection section)
+
+
+Importing to Unity 3D
+
+Importing a Unity Package: 
+* Open a new project or an existing one
+* Assets-->Import Package-->Custom Package-->
+GR3D_010614MSCL.unitypackage
+* Import into project
+* GR3D 010614MSCL folder imported into project/scene.
+
+FBX Importer Setting
+
+Scale Factor: .01 **
+Mesh Compression: off
+Normals: Import **
+Tangents: Calculate **
+Split Tangents: Checked
+
+** These settings are very important when re-importing FBX into Unity
+
+
+
+
+
+
