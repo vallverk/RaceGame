@@ -27,6 +27,8 @@ public class CarDriver : MonoBehaviour
     public float MaxWheelsSteer = 15;
     public float MaxSpeed = 150;
 
+    public float Friction = 5f;
+
     private Rigidbody _rigidbody;
 
     public Vector3 COM = Vector3.zero;
@@ -41,6 +43,10 @@ public class CarDriver : MonoBehaviour
     public float Speed { get { return PhysicRBWheel.rpm * 0.10472f * PhysicRBWheel.radius; } }
 
     public AnimationCurve AccelarationCurve;
+
+
+    private const float _maxUpDownBodyMovement = 5.0f;
+    private const float _UpDownBodySensetivity = 5.0f;
 
     public bool CheckGrounded()
     {
@@ -78,6 +84,8 @@ public class CarDriver : MonoBehaviour
         UpdatePhysics();
     }
 
+    private float _lastAcceleration;
+
     void UpdatePhysics()
     {
         // some magic...
@@ -92,6 +100,7 @@ public class CarDriver : MonoBehaviour
         {
             acceleration *= AccelarationCurve.Evaluate(_rigidbody.velocity.z);
         }
+
 
         float angle = transform.localEulerAngles.y;
 
@@ -110,11 +119,27 @@ public class CarDriver : MonoBehaviour
         }
 
         var velocity = _rigidbody.velocity;
+        float oldVelocity = velocity.z;
+
+        if (Mathf.Approximately(acceleration, 0f))
+        {
+            velocity.z = Mathf.MoveTowards(velocity.z, 0, Time.fixedDeltaTime*Friction);
+        }
+        else
+        {
+            velocity += new Vector3(0, 0, acceleration * Time.fixedDeltaTime);
+        }
 
 
-        velocity += new Vector3(0,0,acceleration*Time.fixedDeltaTime);
 
         velocity.z = Mathf.Clamp(velocity.z, -MaxSpeed, MaxSpeed);
+
+        _lastAcceleration = (oldVelocity - velocity.z) * _UpDownBodySensetivity;
+
+
+        _lastAcceleration = Mathf.Clamp(_lastAcceleration, -_maxUpDownBodyMovement, _maxUpDownBodyMovement);
+        if(IsPlayer)
+        Debug.Log(_lastAcceleration);
 
         _rigidbody.velocity = velocity;
 
@@ -140,9 +165,10 @@ public class CarDriver : MonoBehaviour
         
         var angle = Body.localEulerAngles;
 
-        var targetAngle = new Vector3(0, 10*CurrentWheelsSteer, 0);
+        var targetAngle = new Vector3(_lastAcceleration, 10 * CurrentWheelsSteer, 0);
 
         angle.y = Mathf.LerpAngle(angle.y, targetAngle.y, Time.deltaTime*7.5f);
+        angle.x = Mathf.LerpAngle(angle.x, targetAngle.x, Time.deltaTime*10.5f);
         Body.localEulerAngles = angle;
 
     }
