@@ -30,13 +30,13 @@ public class CameraController : MonoBehaviour, IEventSubscriber
             case 1:
                 _first.enabled = false;
                 _out.enabled = true;
-                _cam.localPosition = _cam.localPosition.normalized*9;
+                _cam.localPosition = _cam.localPosition.normalized*15;
                 EventController.PostEvent("update.camera.switch2",_out.gameObject);
                 break;
             case 2:
                 _first.enabled = false;
                 _out.enabled = true;
-                _cam.localPosition = _cam.localPosition.normalized*15;
+                _cam.localPosition = _cam.localPosition.normalized*9;
                 EventController.PostEvent("update.camera.switch3",_out.gameObject);
                 break;
         }
