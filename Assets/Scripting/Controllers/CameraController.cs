@@ -48,10 +48,15 @@ public class CameraController : MonoBehaviour, IEventSubscriber
     {
         if (EventName == "input.screen.camera.down")
         {
-            CameraMode++;
-            if (CameraMode>2) CameraMode=0;
-            UpdateCameras();
+            NextCamera();
         }
+    }
+
+    private void NextCamera()
+    {
+        CameraMode++;
+        if (CameraMode > 2) CameraMode = 0;
+        UpdateCameras();
     }
 
     #endregion
@@ -69,6 +74,8 @@ public class CameraController : MonoBehaviour, IEventSubscriber
         UpdateCameras();
         EventController.Subscribe("input.screen.camera.down", this);
         UpdateCameras();
+
+        NextCamera();
     }
 
     void OnDestroy()

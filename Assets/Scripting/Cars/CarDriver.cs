@@ -6,6 +6,8 @@ public class CarDriver : MonoBehaviour
 {
     public Transform FirstPersonCameraPoint;
 
+    public bool IsPlayer;
+
     public Renderer[] BreakingHeadLights;
 
     public Transform VisualLFWheel;
@@ -36,6 +38,8 @@ public class CarDriver : MonoBehaviour
 
     public float Speed { get { return PhysicRBWheel.rpm * 0.10472f * PhysicRBWheel.radius; } }
 
+    public AnimationCurve AccelarationCurve;
+
     public bool CheckGrounded()
     {
         return PhysicRFWheel.isGrounded && 
@@ -48,6 +52,7 @@ public class CarDriver : MonoBehaviour
     {
         gameObject.rigidbody.centerOfMass = COM;
         _rigidbody = gameObject.rigidbody;
+        AccelarationCurve = ConstantsStorage.I.AccelerationCurveSlow;
     }
 
     void Update()
@@ -75,14 +80,28 @@ public class CarDriver : MonoBehaviour
     {
         // some magic...
         float steer = CurrentWheelsSteer * MaxWheelsSteer;
-        float acceleration = CurrentAcceleration * MaxMotorTorque;
+        float acceleration = CurrentAcceleration > 0
+            ? CurrentAcceleration*MaxMotorTorque
+            : CurrentAcceleration*MaxBrakeTorque;
+
+        acceleration *= 0.5f;
+
+        if (CurrentAcceleration > 0)
+        {
+            acceleration *= AccelarationCurve.Evaluate(_rigidbody.velocity.z);
+        }
 
         float angle = transform.localEulerAngles.y;
 
         angle = Mathf.Clamp(angle, 0, 360);
 
 
-        if ((angle > 269 && angle < 359) || (angle >= 0 && angle < 90))
+        if (IsPlayer)
+        {
+            Debug.Log(_rigidbody.velocity.z);
+        }
+
+        if ((angle > 269 && angle < 360) || (angle >= 0 && angle < 90))
         {
 
         }

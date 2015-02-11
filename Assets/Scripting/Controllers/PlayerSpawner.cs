@@ -22,6 +22,9 @@ public class PlayerSpawner : MonoBehaviour
         GameObject car = GameObject.Instantiate(CarPrefabs [CarIndex], Vector3.zero, Quaternion.Euler(Vector3.zero)) as GameObject;
         Ground.CharCar = car.transform;
         Camera.Target = car.transform;
+
+        car.GetComponent<CarDriver>().IsPlayer = true;
+
         ColorPicker col = car.GetComponent<ColorPicker>();
         col.CarColor = (ColorPicker.Colors)ColorIndex;
         col.UpdateColor();
