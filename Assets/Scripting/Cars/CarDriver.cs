@@ -10,6 +10,8 @@ public class CarDriver : MonoBehaviour
 
     public Renderer[] BreakingHeadLights;
 
+    public Transform Body;
+
     public Transform VisualLFWheel;
     public Transform VisualLBWheel;
     public Transform VisualRFWheel;
@@ -96,10 +98,7 @@ public class CarDriver : MonoBehaviour
         angle = Mathf.Clamp(angle, 0, 360);
 
 
-        if (IsPlayer)
-        {
-            Debug.Log(_rigidbody.velocity.z);
-        }
+
 
         if ((angle > 269 && angle < 360) || (angle >= 0 && angle < 90))
         {
@@ -120,6 +119,8 @@ public class CarDriver : MonoBehaviour
         _rigidbody.velocity = velocity;
 
         _rigidbody.MovePosition(transform.position + new Vector3(steer*Time.fixedDeltaTime, 0, 0));
+
+
     }
 
     void UpdateVisuals()
@@ -130,9 +131,19 @@ public class CarDriver : MonoBehaviour
         VisualLFWheel.localRotation = Quaternion.Euler(new Vector3(0, 180+CurrentWheelsSteer*MaxWheelsSteer,0));
         VisualRFWheel.localRotation = Quaternion.Euler(new Vector3(0, 180+CurrentWheelsSteer*MaxWheelsSteer,0));
 
-        VisualLBWheel.Rotate(new Vector3(1, 0, 0), PhysicLBWheel.rpm * 360.0f);
-        VisualLFWheel.Rotate(new Vector3(1, 0, 0), PhysicLFWheel.rpm * 360.0f);
-        VisualRBWheel.Rotate(new Vector3(1, 0, 0), PhysicRBWheel.rpm * 360.0f);
-        VisualRFWheel.Rotate(new Vector3(1, 0, 0), PhysicRFWheel.rpm * 360.0f);
+        float rot = _rigidbody.velocity.z*Time.deltaTime;
+
+        VisualLBWheel.Rotate(new Vector3(1, 0, 0), rot);
+        VisualLFWheel.Rotate(new Vector3(1, 0, 0), rot);
+        VisualRBWheel.Rotate(new Vector3(1, 0, 0), rot);
+        VisualRFWheel.Rotate(new Vector3(1, 0, 0), rot);
+        
+        var angle = Body.localEulerAngles;
+
+        var targetAngle = new Vector3(0, 10*CurrentWheelsSteer, 0);
+
+        angle.y = Mathf.LerpAngle(angle.y, targetAngle.y, Time.deltaTime*7.5f);
+        Body.localEulerAngles = angle;
+
     }
 }
