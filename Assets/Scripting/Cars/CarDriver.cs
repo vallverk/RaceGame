@@ -93,12 +93,11 @@ public class CarDriver : MonoBehaviour
 
         var velocity = _rigidbody.velocity;
 
-
         velocity += new Vector3(0,0,acceleration*Time.fixedDeltaTime);
-
         velocity.z = Mathf.Clamp(velocity.z, -MaxSpeed, MaxSpeed);
 
         _rigidbody.velocity = velocity;
+
 
         _rigidbody.MovePosition(transform.position + new Vector3(steer*Time.fixedDeltaTime, 0, 0));
     }
