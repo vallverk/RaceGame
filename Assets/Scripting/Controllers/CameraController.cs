@@ -81,7 +81,9 @@ public class CameraController : MonoBehaviour, IEventSubscriber
     {
         if (_pause)
             return;
+        var x = transform.position.x;
         Vector3 targetPos = Vector3.Lerp(transform.position, Target.position, SmoothingPosition);
+        targetPos.x = x;
         if (_cam.position.y < 1)
             targetPos.y += 1 - _cam.position.y;
         transform.position = targetPos;
