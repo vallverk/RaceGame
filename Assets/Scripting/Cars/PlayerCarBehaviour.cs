@@ -44,17 +44,17 @@ public class PlayerCarBehaviour : MonoBehaviour
             _oldPos = transform.position;
         }
 
-        bool g = _driver.CheckGrounded();
-        if (!_upside && !g)
-        {
-            _upside = true;
-            StartCoroutine("UpsideCar");
-        } else
-            if (_upside && g)
-        {
-            _upside = false;
-            StopCoroutine("UpsideCar");
-        }
+//        bool g = _driver.CheckGrounded();
+//        if (!_upside && !g)
+//        {
+//            _upside = true;
+//            StartCoroutine("UpsideCar");
+//        } else
+//            if (_upside && g)
+//        {
+//            _upside = false;
+//            StopCoroutine("UpsideCar");
+//        }
     }
 
     private bool _upside = false;

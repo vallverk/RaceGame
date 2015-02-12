@@ -48,6 +48,8 @@ public class CarDriver : MonoBehaviour
     private const float _maxUpDownBodyMovement = 5.0f;
     private const float _UpDownBodySensetivity = 5.0f;
 
+    private float _currentUpDown;
+
     public bool CheckGrounded()
     {
         return PhysicRFWheel.isGrounded && 
@@ -136,10 +138,13 @@ public class CarDriver : MonoBehaviour
 
         _lastAcceleration = (oldVelocity - velocity.z) * _UpDownBodySensetivity;
 
+        _currentUpDown += _lastAcceleration;
+        _currentUpDown = Mathf.Clamp(_currentUpDown, -_maxUpDownBodyMovement, _maxUpDownBodyMovement);
+
+        _currentUpDown = Mathf.Lerp(_currentUpDown, 0, Time.fixedDeltaTime);
+
 
         _lastAcceleration = Mathf.Clamp(_lastAcceleration, -_maxUpDownBodyMovement, _maxUpDownBodyMovement);
-        if(IsPlayer)
-        Debug.Log(_lastAcceleration);
 
         _rigidbody.velocity = velocity;
 
