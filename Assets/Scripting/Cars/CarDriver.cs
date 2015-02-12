@@ -17,6 +17,8 @@ public class CarDriver : MonoBehaviour
     public Transform VisualRFWheel;
     public Transform VisualRBWheel;
 
+    public Transform WheelsRoot;
+
     public WheelCollider PhysicLFWheel;
     public WheelCollider PhysicLBWheel;
     public WheelCollider PhysicRFWheel;
@@ -43,7 +45,6 @@ public class CarDriver : MonoBehaviour
     public float Speed { get { return PhysicRBWheel.rpm * 0.10472f * PhysicRBWheel.radius; } }
 
     public AnimationCurve AccelarationCurve;
-
 
     private const float _maxUpDownBodyMovement = 5.0f;
     private const float _UpDownBodySensetivity = 5.0f;

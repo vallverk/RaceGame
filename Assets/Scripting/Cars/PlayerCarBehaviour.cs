@@ -12,7 +12,7 @@ public class PlayerCarBehaviour : MonoBehaviour
 
     WheelCollider[] _cols;
 
-    public int Lifes = 3;
+    public int Lifes = 0;
     private float _lastDTime = 0;
 
     public bool Grounded { get { return _driver.CheckGrounded(); } }
@@ -36,6 +36,11 @@ public class PlayerCarBehaviour : MonoBehaviour
 
     void Update()
     {
+        if (Lifes < 0)
+        {
+            return;
+        }
+
         float dist = Vector3.Distance(_oldPos, transform.position);
         if (dist> 1) 
         {
@@ -86,10 +91,13 @@ public class PlayerCarBehaviour : MonoBehaviour
             {
                 Lifes--;
                 EventController.PostEvent("update.car.health",gameObject);
-                if (Lifes>=0)
+                if (Lifes >= 0)
                     StartCoroutine("Immortal");
                 else
-                    EventController.PostEvent("car.player.death",gameObject);
+                {
+                    EventController.PostEvent("car.player.death", gameObject);
+                    GetComponent<CarDriver>().enabled = false;
+                }
                 _lastDTime = Time.time;
             }
 
@@ -98,6 +106,9 @@ public class PlayerCarBehaviour : MonoBehaviour
                 if (col.contacts.Length > 0)
                     rigidbody.AddForce(col.contacts [0].normal * 0.05f, ForceMode.Impulse);
             }
+
+            rigidbody.useGravity = true;
+            this._driver.WheelsRoot.gameObject.SetActive(true);
         }
     }
 
