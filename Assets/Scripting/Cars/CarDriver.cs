@@ -114,6 +114,11 @@ public class CarDriver : MonoBehaviour
 
         // some magic...
         float steer = CurrentWheelsSteer * MaxWheelsSteer*2.5f;
+
+        steer = Mathf.Abs(_rigidbody.velocity.z) < 10 
+            ? steer * _rigidbody.velocity.z / 10f
+            : steer;
+
         float acceleration = CurrentAcceleration > 0
             ? CurrentAcceleration*MaxMotorTorque
             : CurrentAcceleration*MaxBrakeTorque;
@@ -139,13 +144,14 @@ public class CarDriver : MonoBehaviour
 
 
 
-
+        bool forward = true;
         if ((angle > 269 && angle < 360) || (angle >= 0 && angle < 90))
         {
-
+            forward = true;
         }
         else
         {
+            forward = false;
             acceleration = -acceleration;
         }
 
@@ -161,7 +167,15 @@ public class CarDriver : MonoBehaviour
             velocity += new Vector3(0, 0, acceleration * Time.fixedDeltaTime);
         }
 
-        velocity.z = Mathf.Clamp(velocity.z, -MaxSpeed, MaxSpeed);
+        if (forward)
+        {
+            velocity.z = Mathf.Clamp(velocity.z, 0, MaxSpeed);
+        }
+        else
+        {
+            velocity.z = Mathf.Clamp(velocity.z, -MaxSpeed, 0);
+
+        }
         _rigidbody.velocity = velocity;
 
         if (Dead)
@@ -217,7 +231,12 @@ public class CarDriver : MonoBehaviour
         
         var angle = Body.localEulerAngles;
 
-        var targetAngle = new Vector3(_lastAcceleration, 15 * CurrentWheelsSteer, CurrentWheelsSteer*15f);
+
+        var steer = Mathf.Abs(_rigidbody.velocity.z) < 10
+    ? CurrentWheelsSteer * _rigidbody.velocity.z / 10f
+    : CurrentWheelsSteer;
+
+        var targetAngle = new Vector3(_lastAcceleration, 15 * steer, steer * 15f);
 
         angle.y = Mathf.LerpAngle(angle.y, targetAngle.y, Time.deltaTime*11.5f);
         angle.x = Mathf.LerpAngle(angle.x, targetAngle.x, Time.deltaTime*20.5f);
@@ -234,8 +253,7 @@ public class CarDriver : MonoBehaviour
         }
         else
         {
-            Debug.Log("Coll " + col.gameObject.name);
-            Dead = true;
+        //    Dead = true;
         }
     }
 }

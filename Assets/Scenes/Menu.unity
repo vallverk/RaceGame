@@ -19,7 +19,7 @@ RenderSettings:
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientLight: {r: .200000003, g: .200000003, b: .200000003, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: a2126534b3a11b34e977105bd9e3cc03, type: 2}
+  m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: .5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -3187,7 +3187,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 1805276897}
   m_GameObject: {fileID: 1808971868}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 45e66a4feaffe4f19aaa18e94715c771, type: 3}
   m_Name: 
@@ -3254,6 +3254,7 @@ MonoBehaviour:
   CurrentAcceleration: 0
   CurrentWheelsSteer: 0
   throttle: 0
+  Dead: 0
   AccelarationCurve:
     serializedVersion: 2
     m_Curve: []

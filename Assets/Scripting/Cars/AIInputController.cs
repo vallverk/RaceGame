@@ -9,13 +9,21 @@ public class AIInputController : MonoBehaviour
 
     public float TargetAcceleration = 1;
 
+    public bool Forward;
+
     private CarDriver _driver;
-    
+    private bool _canChangeDir;
+    private bool _canMove;
+
+
+    private float _steer;
     void Awake()
     {
         _driver = GetComponent<CarDriver>();
 
         _driver.CurrentAcceleration = TargetAcceleration;
+
+        StartCoroutine(TestTimer());
 
     }
 
@@ -36,13 +44,57 @@ public class AIInputController : MonoBehaviour
 #endif
         }
 
-        Vector3 target = new Vector3(TargetX, transform.position.y, transform.position.z + 50 * Mathf.Sign(TargetZ));
-        float steer = transform.InverseTransformPoint(target).x;
-        _driver.CurrentWheelsSteer = Mathf.Clamp(steer/30,-1,1);
+
+
+
+//        Vector3 target = new Vector3(TargetX, transform.position.y, transform.position.z + 50 * Mathf.Sign(TargetZ));
+//        float steer = transform.InverseTransformPoint(target).x;
+//        _driver.CurrentWheelsSteer = Mathf.Clamp(steer/30,-1,1);
+
+
+        if (_canMove)
+        {
+            if (Mathf.Abs(transform.position.x - TargetX) < 0.15f)
+            {
+                _steer = 0;
+                _canMove = false;
+            }
+            else if (TargetX < transform.position.x)
+            {
+                _steer = Mathf.Lerp(_steer, -1, Time.deltaTime*0.25f);
+            }
+            else
+            {
+                _steer = Mathf.Lerp(_steer, 1, Time.deltaTime*0.25f);
+            }
+        }
+
+        _driver.CurrentWheelsSteer = _steer;
+
+        if (_canChangeDir)
+        {
+            var result = Random.Range(0f, 1f);
+            if (result > 0.4f)
+            {
+                float x = Random.value > 0.5f ? 3 : 7;
+                if (Forward) x *= -1;
+                TargetX = x;
+                _canMove = true;
+            }
+            StartCoroutine(TestTimer());
+        }
+
     }
 
     void OnTriggerEnter()
     {
         EventController.PostEvent("car.ai.needdestroy", gameObject);
+    }
+
+    private IEnumerator TestTimer()
+    {
+        _canChangeDir = false;
+        yield return new WaitForSeconds(1.5f + Random.Range(0f,2f));
+        _canChangeDir = true;
     }
 }

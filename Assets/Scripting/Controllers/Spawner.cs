@@ -75,6 +75,9 @@ public class Spawner : MonoBehaviour, IEventSubscriber
         bool forward = Random.value > 0.5f;
         
         GameObject car = GameObject.Instantiate(GetRandCarPrefab()) as GameObject;
+
+        car.GetComponent<AIInputController>().Forward = forward;
+
         car.transform.rotation = Quaternion.Euler(new Vector3(0,forward?180:0,0));
 
         AIInputController aiic = car.gameObject.GetComponent<AIInputController>();
@@ -90,7 +93,7 @@ public class Spawner : MonoBehaviour, IEventSubscriber
         car.transform.position = carPos;
         while (car.rigidbody.SweepTest(Vector3.down,out hit,6))
         {
-            carPos.z += 10*(forward?-1:1);
+            carPos.z += 25*(forward?-1:1);
             car.transform.position = carPos;
         }
         carPos.y = 0;
