@@ -91,7 +91,7 @@ public class CarDriver : MonoBehaviour
     void UpdatePhysics()
     {
         // some magic...
-        float steer = CurrentWheelsSteer * MaxWheelsSteer;
+        float steer = CurrentWheelsSteer * MaxWheelsSteer*2f;
         float acceleration = CurrentAcceleration > 0
             ? CurrentAcceleration*MaxMotorTorque
             : CurrentAcceleration*MaxBrakeTorque;
@@ -148,6 +148,12 @@ public class CarDriver : MonoBehaviour
 
         _rigidbody.velocity = velocity;
 
+
+
+
+
+
+
         _rigidbody.MovePosition(transform.position + new Vector3(steer*Time.fixedDeltaTime, 0, 0));
 
 
@@ -161,7 +167,7 @@ public class CarDriver : MonoBehaviour
         VisualLFWheel.localRotation = Quaternion.Euler(new Vector3(0, 180+CurrentWheelsSteer*MaxWheelsSteer,0));
         VisualRFWheel.localRotation = Quaternion.Euler(new Vector3(0, 180+CurrentWheelsSteer*MaxWheelsSteer,0));
 
-        float rot = _rigidbody.velocity.z*Time.deltaTime;
+        float rot = _rigidbody.velocity.z*Time.deltaTime*30;
 
         VisualLBWheel.Rotate(new Vector3(1, 0, 0), rot);
         VisualLFWheel.Rotate(new Vector3(1, 0, 0), rot);
@@ -170,10 +176,11 @@ public class CarDriver : MonoBehaviour
         
         var angle = Body.localEulerAngles;
 
-        var targetAngle = new Vector3(_lastAcceleration, 10 * CurrentWheelsSteer, 0);
+        var targetAngle = new Vector3(_lastAcceleration, 15 * CurrentWheelsSteer, CurrentWheelsSteer*8f);
 
         angle.y = Mathf.LerpAngle(angle.y, targetAngle.y, Time.deltaTime*7.5f);
         angle.x = Mathf.LerpAngle(angle.x, targetAngle.x, Time.deltaTime*10.5f);
+        angle.z = Mathf.LerpAngle(angle.z, targetAngle.z, Time.deltaTime*10.5f);
         Body.localEulerAngles = angle;
 
     }
