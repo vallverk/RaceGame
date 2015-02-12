@@ -9,6 +9,8 @@ public class ConstantsStorage : MonoBehaviour
     public AnimationCurve AccelerationCurveMedium;
     public AnimationCurve AccelerationCurveFast;
 
+    public AnimationCurve ControlSensetivity;
+
 
 
 

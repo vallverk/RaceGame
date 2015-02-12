@@ -2998,6 +2998,26 @@ MonoBehaviour:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
+  ControlSensetivity:
+    serializedVersion: 2
+    m_Curve:
+    - time: .00195934204
+      value: .645384312
+      inSlope: -.0011920929
+      outSlope: -.0011920929
+      tangentMode: 0
+    - time: .149035096
+      value: 1.52047145
+      inSlope: .225163504
+      outSlope: .225163504
+      tangentMode: 0
+    - time: 1.00150275
+      value: 2.0017736
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 0
+    m_PostInfinity: 2
 --- !u!4 &1799213256
 Transform:
   m_ObjectHideFlags: 0

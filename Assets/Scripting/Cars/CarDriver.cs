@@ -46,7 +46,7 @@ public class CarDriver : MonoBehaviour
 
     public AnimationCurve AccelarationCurve;
 
-    private const float _maxUpDownBodyMovement = 5.0f;
+    private const float _maxUpDownBodyMovement = 7.5f;
     private const float _UpDownBodySensetivity = 5.0f;
 
     private float _currentUpDown;
@@ -92,7 +92,7 @@ public class CarDriver : MonoBehaviour
     void UpdatePhysics()
     {
         // some magic...
-        float steer = CurrentWheelsSteer * MaxWheelsSteer*2f;
+        float steer = CurrentWheelsSteer * MaxWheelsSteer*2.5f;
         float acceleration = CurrentAcceleration > 0
             ? CurrentAcceleration*MaxMotorTorque
             : CurrentAcceleration*MaxBrakeTorque;
@@ -102,6 +102,13 @@ public class CarDriver : MonoBehaviour
         if (CurrentAcceleration > 0)
         {
             acceleration *= AccelarationCurve.Evaluate(_rigidbody.velocity.z);
+        }
+        else
+        {
+            if (_rigidbody.velocity.z < 0)
+            {
+                acceleration *= 0.05f;
+            }
         }
 
 
@@ -138,6 +145,9 @@ public class CarDriver : MonoBehaviour
         velocity.z = Mathf.Clamp(velocity.z, -MaxSpeed, MaxSpeed);
 
         _lastAcceleration = (oldVelocity - velocity.z) * _UpDownBodySensetivity;
+        _lastAcceleration = Mathf.Clamp(_lastAcceleration, -_maxUpDownBodyMovement*0.5f, _maxUpDownBodyMovement*1.5f);
+        _lastAcceleration = Mathf.Lerp(_lastAcceleration, 0, Time.deltaTime);
+
 
         _currentUpDown += _lastAcceleration;
         _currentUpDown = Mathf.Clamp(_currentUpDown, -_maxUpDownBodyMovement, _maxUpDownBodyMovement);
@@ -145,7 +155,7 @@ public class CarDriver : MonoBehaviour
         _currentUpDown = Mathf.Lerp(_currentUpDown, 0, Time.fixedDeltaTime);
 
 
-        _lastAcceleration = Mathf.Clamp(_lastAcceleration, -_maxUpDownBodyMovement, _maxUpDownBodyMovement);
+
 
         _rigidbody.velocity = velocity;
 
@@ -177,11 +187,11 @@ public class CarDriver : MonoBehaviour
         
         var angle = Body.localEulerAngles;
 
-        var targetAngle = new Vector3(_lastAcceleration, 15 * CurrentWheelsSteer, CurrentWheelsSteer*8f);
+        var targetAngle = new Vector3(_lastAcceleration, 15 * CurrentWheelsSteer, CurrentWheelsSteer*15f);
 
-        angle.y = Mathf.LerpAngle(angle.y, targetAngle.y, Time.deltaTime*7.5f);
-        angle.x = Mathf.LerpAngle(angle.x, targetAngle.x, Time.deltaTime*10.5f);
-        angle.z = Mathf.LerpAngle(angle.z, targetAngle.z, Time.deltaTime*10.5f);
+        angle.y = Mathf.LerpAngle(angle.y, targetAngle.y, Time.deltaTime*15.5f);
+        angle.x = Mathf.LerpAngle(angle.x, targetAngle.x, Time.deltaTime*20.5f);
+        angle.z = Mathf.LerpAngle(angle.z, targetAngle.z, Time.deltaTime*20.5f);
         Body.localEulerAngles = angle;
 
     }
