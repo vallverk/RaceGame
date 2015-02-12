@@ -224,7 +224,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &100026
 GameObject:
   m_ObjectHideFlags: 1
@@ -374,12 +374,12 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106829}
-  m_LocalPosition: {x: -1.12889862, y: .493436813, z: 2.20193481}
+  m_LocalPosition: {x: -1.12889838, y: .493436813, z: 2.20193458}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400004}
   m_Father: {fileID: 400038}
-  m_RootOrder: 1
+  m_RootOrder: 5
 --- !u!4 &400004
 Transform:
   m_ObjectHideFlags: 1
@@ -399,12 +399,12 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100006}
   m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106829}
-  m_LocalPosition: {x: -1.12889862, y: .502529144, z: -1.87064934}
+  m_LocalPosition: {x: -1.12889838, y: .502529085, z: -1.87064934}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400010}
   m_Father: {fileID: 400038}
-  m_RootOrder: 3
+  m_RootOrder: 7
 --- !u!4 &400008
 Transform:
   m_ObjectHideFlags: 1
@@ -412,12 +412,12 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100008}
   m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106829}
-  m_LocalPosition: {x: 1.12889481, y: .493436813, z: 2.20193481}
+  m_LocalPosition: {x: 1.12889481, y: .493436813, z: 2.20193458}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400020}
   m_Father: {fileID: 400038}
-  m_RootOrder: 2
+  m_RootOrder: 6
 --- !u!4 &400010
 Transform:
   m_ObjectHideFlags: 1
@@ -437,12 +437,12 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100012}
   m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106829}
-  m_LocalPosition: {x: 1.12889481, y: .502529144, z: -1.87065506}
+  m_LocalPosition: {x: 1.12889481, y: .502529085, z: -1.87065506}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400000}
   m_Father: {fileID: 400038}
-  m_RootOrder: 4
+  m_RootOrder: 8
 --- !u!4 &400014
 Transform:
   m_ObjectHideFlags: 1
@@ -462,8 +462,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100016}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.1390457, y: 7.85585785, z: 314.597198}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -4.6365757, y: -1.61219895, z: 3.52544212}
+  m_LocalScale: {x: .850000024, y: .850000024, z: .850000024}
   m_Children:
   - {fileID: 400038}
   - {fileID: 400024}
@@ -481,7 +481,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400038}
-  m_RootOrder: 8
+  m_RootOrder: 4
 --- !u!4 &400020
 Transform:
   m_ObjectHideFlags: 1
@@ -505,7 +505,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400038}
-  m_RootOrder: 5
+  m_RootOrder: 1
 --- !u!4 &400024
 Transform:
   m_ObjectHideFlags: 1
@@ -581,7 +581,7 @@ Transform:
   m_LocalScale: {x: 1.39980173, y: .335998952, z: 1}
   m_Children: []
   m_Father: {fileID: 400038}
-  m_RootOrder: 7
+  m_RootOrder: 3
 --- !u!4 &400036
 Transform:
   m_ObjectHideFlags: 1
@@ -593,7 +593,7 @@ Transform:
   m_LocalScale: {x: 1.39980173, y: .335999042, z: 1}
   m_Children: []
   m_Father: {fileID: 400038}
-  m_RootOrder: 6
+  m_RootOrder: 2
 --- !u!4 &400038
 Transform:
   m_ObjectHideFlags: 1
@@ -605,14 +605,14 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400040}
-  - {fileID: 400002}
-  - {fileID: 400008}
-  - {fileID: 400006}
-  - {fileID: 400012}
   - {fileID: 400022}
   - {fileID: 400036}
   - {fileID: 400034}
   - {fileID: 400018}
+  - {fileID: 400002}
+  - {fileID: 400008}
+  - {fileID: 400006}
+  - {fileID: 400012}
   m_Father: {fileID: 400016}
   m_RootOrder: 0
 --- !u!4 &400040
@@ -1020,7 +1020,7 @@ Rigidbody:
   m_Mass: 7500
   m_Drag: 0
   m_AngularDrag: .0500000007
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -1064,7 +1064,7 @@ MonoBehaviour:
   PhysicRFWheel: {fileID: 14600000}
   PhysicRBWheel: {fileID: 14600006}
   MaxMotorTorque: 50
-  MaxBrakeTorque: 100
+  MaxBrakeTorque: 130
   MaxWheelsSteer: 5
   MaxSpeed: 80
   Friction: 5
