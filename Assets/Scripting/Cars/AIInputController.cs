@@ -38,7 +38,7 @@ public class AIInputController : MonoBehaviour
 
         Vector3 target = new Vector3(TargetX, transform.position.y, transform.position.z + 50 * Mathf.Sign(TargetZ));
         float steer = transform.InverseTransformPoint(target).x;
-        //_driver.CurrentWheelsSteer = Mathf.Clamp(steer/30,-1,1);
+        _driver.CurrentWheelsSteer = Mathf.Clamp(steer/30,-1,1);
     }
 
     void OnTriggerEnter()

@@ -96,7 +96,7 @@ public class PlayerCarBehaviour : MonoBehaviour
                 else
                 {
                     EventController.PostEvent("car.player.death", gameObject);
-                    GetComponent<CarDriver>().enabled = false;
+                    GetComponent<CarDriver>().Dead = true;
                 }
                 _lastDTime = Time.time;
             }

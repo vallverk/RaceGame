@@ -42,6 +42,8 @@ public class CarDriver : MonoBehaviour
 
     public float throttle;
 
+    public bool Dead;
+
     public float Speed { get { return PhysicRBWheel.rpm * 0.10472f * PhysicRBWheel.radius; } }
 
     public AnimationCurve AccelarationCurve;
@@ -68,7 +70,19 @@ public class CarDriver : MonoBehaviour
 
     void Update()
     {
+        if (Dead)
+        {
+            CurrentAcceleration = 0;
+            CurrentWheelsSteer = 0;
+        }
+
         UpdateVisuals();
+
+
+        if (Dead)
+        {
+            return;
+        }
 
         if (BreakingHeadLights.Length > 0)
         {
@@ -91,6 +105,13 @@ public class CarDriver : MonoBehaviour
 
     void UpdatePhysics()
     {
+
+        if (Dead)
+        {
+            CurrentAcceleration = 0;
+            CurrentWheelsSteer = 0;
+        }
+
         // some magic...
         float steer = CurrentWheelsSteer * MaxWheelsSteer*2.5f;
         float acceleration = CurrentAcceleration > 0
@@ -133,16 +154,26 @@ public class CarDriver : MonoBehaviour
 
         if (Mathf.Approximately(acceleration, 0f))
         {
-            velocity.z = Mathf.MoveTowards(velocity.z, 0, Time.fixedDeltaTime*Friction);
+            velocity.z = Mathf.MoveTowards(velocity.z, 0, Time.fixedDeltaTime*Friction*(Dead ? 2f : 1f));
         }
         else
         {
             velocity += new Vector3(0, 0, acceleration * Time.fixedDeltaTime);
         }
 
-
-
         velocity.z = Mathf.Clamp(velocity.z, -MaxSpeed, MaxSpeed);
+        _rigidbody.velocity = velocity;
+
+        if (Dead)
+        {
+            CurrentAcceleration = 0;
+            CurrentWheelsSteer = 0;
+            return;
+        }
+
+
+
+
 
         _lastAcceleration = (oldVelocity - velocity.z) * _UpDownBodySensetivity;
         _lastAcceleration = Mathf.Clamp(_lastAcceleration, -_maxUpDownBodyMovement*0.5f, _maxUpDownBodyMovement*1.5f);
@@ -157,7 +188,6 @@ public class CarDriver : MonoBehaviour
 
 
 
-        _rigidbody.velocity = velocity;
 
 
 
@@ -189,10 +219,23 @@ public class CarDriver : MonoBehaviour
 
         var targetAngle = new Vector3(_lastAcceleration, 15 * CurrentWheelsSteer, CurrentWheelsSteer*15f);
 
-        angle.y = Mathf.LerpAngle(angle.y, targetAngle.y, Time.deltaTime*15.5f);
+        angle.y = Mathf.LerpAngle(angle.y, targetAngle.y, Time.deltaTime*11.5f);
         angle.x = Mathf.LerpAngle(angle.x, targetAngle.x, Time.deltaTime*20.5f);
         angle.z = Mathf.LerpAngle(angle.z, targetAngle.z, Time.deltaTime*20.5f);
         Body.localEulerAngles = angle;
 
+    }
+
+
+    private void OnCollisionEnter(Collision col)
+    {
+        if (col.gameObject.CompareTag("Ground") || col.gameObject.CompareTag("Road"))
+        {
+        }
+        else
+        {
+            Debug.Log("Coll " + col.gameObject.name);
+            Dead = true;
+        }
     }
 }
