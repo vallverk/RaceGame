@@ -42,6 +42,9 @@ public class AIInputController : MonoBehaviour
 
         ActivateSignals(LeftSignals, false);
         ActivateSignals(RightSignals, false);
+
+        _driver.RotationSpeed = 0.55f;
+        _driver.RotationAmount = 1.5f;
     }
 
     void Update()
@@ -59,7 +62,7 @@ public class AIInputController : MonoBehaviour
         }
 
         RaycastHit hit;
-        if (rigidbody.SweepTest(transform.forward, out hit, 15))
+        if (rigidbody.SweepTest(transform.forward, out hit, 25))
         {
             _driver.CurrentAcceleration = -(2 - Mathf.Clamp(hit.distance/5, 0, 2));
         }
@@ -115,6 +118,7 @@ public class AIInputController : MonoBehaviour
 
         if (Math.Abs(x - TargetX) < 0.1f)
         {
+            StartCoroutine(TestTimer());
             yield return null;
         }
         else

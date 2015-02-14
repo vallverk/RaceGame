@@ -53,6 +53,9 @@ public class CarDriver : MonoBehaviour
 
     private float _currentUpDown;
 
+    public float RotationSpeed = 1f;
+    public float RotationAmount = 1f;
+
     public bool CheckGrounded()
     {
         return PhysicRFWheel.isGrounded && 
@@ -219,11 +222,18 @@ public class CarDriver : MonoBehaviour
 
     void UpdateVisuals()
     {
+        UpdateWheelsVisual();
+
+        UpdateBodyVisual();
+    }
+
+    private void UpdateWheelsVisual()
+    {
         if (VisualLFWheel == null)
             return;
 
-        VisualLFWheel.localRotation = Quaternion.Euler(new Vector3(0, 180+CurrentWheelsSteer*MaxWheelsSteer,0));
-        VisualRFWheel.localRotation = Quaternion.Euler(new Vector3(0, 180+CurrentWheelsSteer*MaxWheelsSteer,0));
+        VisualLFWheel.localRotation = Quaternion.Euler(new Vector3(0, 180 + CurrentWheelsSteer*MaxWheelsSteer, 0));
+        VisualRFWheel.localRotation = Quaternion.Euler(new Vector3(0, 180 + CurrentWheelsSteer*MaxWheelsSteer, 0));
 
         float rot = _rigidbody.velocity.z*Time.deltaTime*30;
 
@@ -231,21 +241,26 @@ public class CarDriver : MonoBehaviour
         VisualLFWheel.Rotate(new Vector3(1, 0, 0), rot);
         VisualRBWheel.Rotate(new Vector3(1, 0, 0), rot);
         VisualRFWheel.Rotate(new Vector3(1, 0, 0), rot);
-        
+    }
+
+    private void UpdateBodyVisual()
+    {
+        if (Body == null)
+            return;
+
         var angle = Body.localEulerAngles;
 
 
         var steer = Mathf.Abs(_rigidbody.velocity.z) < 10
-    ? CurrentWheelsSteer * _rigidbody.velocity.z / 10f
-    : CurrentWheelsSteer;
+            ? CurrentWheelsSteer*_rigidbody.velocity.z/10f
+            : CurrentWheelsSteer;
 
-        var targetAngle = new Vector3(_lastAcceleration, 15 * steer, steer * 15f);
+        var targetAngle = new Vector3(_lastAcceleration, 15*steer*RotationAmount, steer*15f);
 
-        angle.y = Mathf.LerpAngle(angle.y, targetAngle.y, Time.deltaTime*11.5f);
+        angle.y = Mathf.LerpAngle(angle.y, targetAngle.y * RotationSpeed, Time.deltaTime * 11.5f);
         angle.x = Mathf.LerpAngle(angle.x, targetAngle.x, Time.deltaTime*20.5f);
         angle.z = Mathf.LerpAngle(angle.z, targetAngle.z, Time.deltaTime*20.5f);
         Body.localEulerAngles = angle;
-
     }
 
 
