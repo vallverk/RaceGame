@@ -53,7 +53,10 @@ public class ScreenIC : MonoBehaviour, IEventSubscriber
 
     void Update()
     {
-        _driver.CurrentWheelsSteer = Input.acceleration.x;
+
+        float steer = ConstantsStorage.I.ControlSensetivity.Evaluate(Input.acceleration.x);
+
+        _driver.CurrentWheelsSteer = Mathf.Clamp(Input.acceleration.x*steer, -1, 1);
     }
 
 }

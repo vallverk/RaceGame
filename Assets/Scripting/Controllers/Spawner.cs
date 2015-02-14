@@ -11,6 +11,7 @@ public class Spawner : MonoBehaviour, IEventSubscriber
     public float SpawnTime = 1;
 
     public float SpawnDistance = 1250;
+    public float SpawnDistanceBack = 100;
 
     private List<Transform> SpawnedCars;
     private Transform _playerCar;
@@ -75,6 +76,9 @@ public class Spawner : MonoBehaviour, IEventSubscriber
         bool forward = Random.value > 0.5f;
         
         GameObject car = GameObject.Instantiate(GetRandCarPrefab()) as GameObject;
+
+        car.GetComponent<AIInputController>().Forward = forward;
+
         car.transform.rotation = Quaternion.Euler(new Vector3(0,forward?180:0,0));
 
         AIInputController aiic = car.gameObject.GetComponent<AIInputController>();
@@ -82,15 +86,15 @@ public class Spawner : MonoBehaviour, IEventSubscriber
         float x = Random.value > 0.5f ? 3 : 7;
         if (forward) x*=-1;
         aiic.TargetX = x;
-        bool ff = Random.value > 0.5f;
-        Vector3 carPos = new Vector3(x, 7, _playerCar.position.z + SpawnDistance * (ff ? 1 : -1));
+        bool ff = Random.value > 0.15f;
+        Vector3 carPos = new Vector3(x, 7, _playerCar.position.z + (ff ? SpawnDistance : -SpawnDistanceBack));
         if (ff)
             car.GetComponent<CarDriver>().MaxSpeed*=0.6f;
         RaycastHit hit;
         car.transform.position = carPos;
         while (car.rigidbody.SweepTest(Vector3.down,out hit,6))
         {
-            carPos.z += 10*(forward?-1:1);
+            carPos.z += 45*(forward?1:-1);
             car.transform.position = carPos;
         }
         carPos.y = 0;

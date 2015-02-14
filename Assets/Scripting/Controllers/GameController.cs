@@ -3,6 +3,8 @@ using System.Collections;
 
 public class GameController : MonoBehaviour, IEventSubscriber
 {
+    private bool _deathScreen;
+
     void Awake()
     {
         EventController.SubscribeToAllEvents(this);
@@ -28,7 +30,11 @@ public class GameController : MonoBehaviour, IEventSubscriber
         switch (EventName)
         {
             case "gui.screen.pause":
-                Time.timeScale = 0;
+
+                if (!_deathScreen)
+                {
+                    Time.timeScale = 0;
+                }
                 GoogleAnalytics.Log("screen.main.pause");
                 break;
 
@@ -49,6 +55,9 @@ public class GameController : MonoBehaviour, IEventSubscriber
                 break;
 
             case "car.player.death":
+                               _deathScreen = true;
+                Time.timeScale = 1;
+
                 int cs = (int)Sender.GetComponent<PlayerCarBehaviour>().Distance;
                 int os = PlayerPrefs.HasKey("Score")?PlayerPrefs.GetInt("Score"):0;
                 PlayerPrefs.SetInt("Score",Mathf.Max(cs,os));
@@ -56,6 +65,8 @@ public class GameController : MonoBehaviour, IEventSubscriber
                 EventController.PostEvent("gui.hide",null);
                 EventController.PostEvent("gui.screen.findistance",null);
                 EventController.PostEvent("gui.screen.pause",null);
+
+ 
                 break;
         }
     }

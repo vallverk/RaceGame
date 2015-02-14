@@ -30,13 +30,13 @@ public class CameraController : MonoBehaviour, IEventSubscriber
             case 1:
                 _first.enabled = false;
                 _out.enabled = true;
-                _cam.localPosition = _cam.localPosition.normalized*9;
+                _cam.localPosition = _cam.localPosition.normalized*15;
                 EventController.PostEvent("update.camera.switch2",_out.gameObject);
                 break;
             case 2:
                 _first.enabled = false;
                 _out.enabled = true;
-                _cam.localPosition = _cam.localPosition.normalized*15;
+                _cam.localPosition = _cam.localPosition.normalized*9;
                 EventController.PostEvent("update.camera.switch3",_out.gameObject);
                 break;
         }
@@ -48,10 +48,15 @@ public class CameraController : MonoBehaviour, IEventSubscriber
     {
         if (EventName == "input.screen.camera.down")
         {
-            CameraMode++;
-            if (CameraMode>2) CameraMode=0;
-            UpdateCameras();
+            NextCamera();
         }
+    }
+
+    private void NextCamera()
+    {
+        CameraMode++;
+        if (CameraMode > 2) CameraMode = 0;
+        UpdateCameras();
     }
 
     #endregion
@@ -69,6 +74,8 @@ public class CameraController : MonoBehaviour, IEventSubscriber
         UpdateCameras();
         EventController.Subscribe("input.screen.camera.down", this);
         UpdateCameras();
+
+        NextCamera();
     }
 
     void OnDestroy()
@@ -81,7 +88,9 @@ public class CameraController : MonoBehaviour, IEventSubscriber
     {
         if (_pause)
             return;
+        var x = transform.position.x;
         Vector3 targetPos = Vector3.Lerp(transform.position, Target.position, SmoothingPosition);
+        targetPos.x = x;
         if (_cam.position.y < 1)
             targetPos.y += 1 - _cam.position.y;
         transform.position = targetPos;
