@@ -189,8 +189,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 20, y: 5, z: 1}
-  m_Center: {x: 0, y: 2.5, z: -800}
+  m_Size: {x: 20, y: 5, z: 421.200012}
+  m_Center: {x: 0, y: 2.5, z: -267.399994}
 --- !u!65 &39698843
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -201,8 +201,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 20, y: 5, z: 1}
-  m_Center: {x: 0, y: 2.5, z: 800}
+  m_Size: {x: 20, y: 5, z: 77.7200012}
+  m_Center: {x: 0, y: 2.5, z: 282.190002}
 --- !u!1001 &68912331
 Prefab:
   m_ObjectHideFlags: 0
@@ -249,6 +249,10 @@ Prefab:
     - target: {fileID: 400000, guid: 21dd7eebbc86f794985ad9a9c294cc30, type: 2}
       propertyPath: m_RootOrder
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 21dd7eebbc86f794985ad9a9c294cc30, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 21dd7eebbc86f794985ad9a9c294cc30, type: 2}
@@ -1885,7 +1889,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1170645369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2064,10 +2068,11 @@ MonoBehaviour:
   - {fileID: 100022, guid: 005fc4a7857804e26924da7ba325a3dc, type: 2}
   - {fileID: 100020, guid: 6be390432e2884fbb8b8c4366e19464c, type: 2}
   - {fileID: 100020, guid: 1c1b48beb926741c3abe46c17e2883af, type: 2}
-  MinCarsCount: 15
-  MaxCarCount: 30
-  SpawnTime: 1
-  SpawnDistance: 600
+  MinCarsCount: 4
+  MaxCarCount: 12
+  SpawnTime: 2
+  SpawnDistance: 170
+  SpawnDistanceBack: 40
 --- !u!114 &1376534142
 MonoBehaviour:
   m_ObjectHideFlags: 0

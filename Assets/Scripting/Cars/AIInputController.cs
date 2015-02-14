@@ -1,5 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
+using System.Runtime.Serialization.Formatters;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(CarDriver))]
 public class AIInputController : MonoBehaviour 
@@ -20,6 +23,13 @@ public class AIInputController : MonoBehaviour
 
 
     private float _steer;
+
+
+
+    private bool BlinkingLeft;
+    private bool BlinkOn;
+
+
     void Awake()
     {
         _driver = GetComponent<CarDriver>();
@@ -28,31 +38,27 @@ public class AIInputController : MonoBehaviour
 
         StartCoroutine(TestTimer());
 
+        ActivateSignals(LeftSignals, false);
+        ActivateSignals(RightSignals, false);
     }
 
     void Update()
     {
+        UpdateMovement();
+        UpdateLineChanging();
+    }
+
+    private void UpdateMovement()
+    {
         RaycastHit hit;
-        if (rigidbody.SweepTest(transform.forward,out hit,15))
+        if (rigidbody.SweepTest(transform.forward, out hit, 15))
         {
-            _driver.CurrentAcceleration = - (2 -Mathf.Clamp(hit.distance/5,0,2));
-#if UNITY_EDITOR
-            //Debug.DrawLine(transform.position+transform.up, transform.position+transform.up+transform.forward*10, Color.red);
-#endif
-        } else
+            _driver.CurrentAcceleration = -(2 - Mathf.Clamp(hit.distance/5, 0, 2));
+        }
+        else
         {
             _driver.CurrentAcceleration = TargetAcceleration;
-#if UNITY_EDITOR
-            //Debug.DrawLine(transform.position+transform.up, transform.position+transform.up+transform.forward*10,Color.green);
-#endif
         }
-
-
-
-
-//        Vector3 target = new Vector3(TargetX, transform.position.y, transform.position.z + 50 * Mathf.Sign(TargetZ));
-//        float steer = transform.InverseTransformPoint(target).x;
-//        _driver.CurrentWheelsSteer = Mathf.Clamp(steer/30,-1,1);
 
 
         if (_canMove)
@@ -73,26 +79,84 @@ public class AIInputController : MonoBehaviour
         }
 
         _driver.CurrentWheelsSteer = _steer;
+    }
 
+    private void UpdateLineChanging()
+    {
         if (_canChangeDir)
         {
             var result = Random.Range(0f, 1f);
             if (result > 0.4f)
             {
                 StartCoroutine(StartChangeLane());
-                float x = Random.value > 0.5f ? 3 : 7;
-                if (Forward) x *= -1;
-                TargetX = x;
-                _canMove = true;
             }
-            StartCoroutine(TestTimer());
+            else
+            {
+                StartCoroutine(TestTimer());
+            }
         }
-
     }
 
     private IEnumerator StartChangeLane()
     {
+        _canChangeDir = false;
+
+        BlinkingLeft = Random.value > 0.5f;
+        float x = BlinkingLeft ? 3 : 7;
+        if (Forward) x *= -1;
         
+        if (Math.Abs(x - TargetX) < 0.1f)
+        {
+            yield return null;
+        }
+
+        int blinksCount = 2 + Random.Range(0, 1);
+
+        ActivateSignals(LeftSignals, false);
+        ActivateSignals(RightSignals, false);
+
+        for (int i = 0; i < blinksCount; i++)
+        {
+            ActivateSignals(GetSignals(), true);
+            yield return new WaitForSeconds(0.2f);
+            ActivateSignals(GetSignals(), false);
+            yield return new WaitForSeconds(0.2f);
+        }
+
+        TargetX = x;
+        _canMove = true;
+        
+        StartCoroutine(TestTimer());
+
+        for (int i = 0; i < blinksCount; i++)
+        {
+            ActivateSignals(GetSignals(), true);
+            yield return new WaitForSeconds(0.2f);
+            ActivateSignals(GetSignals(), false);
+            yield return new WaitForSeconds(0.2f);
+        }
+
+    }
+
+    private Renderer[] GetSignals()
+    {
+        return BlinkingLeft ? LeftSignals : RightSignals;
+    }    
+    private Renderer[] GetOppositeSignals()
+    {
+        return BlinkingLeft ? RightSignals : LeftSignals;
+    }
+
+    private void ActivateSignals(Renderer[] signals, bool activate)
+    {
+        foreach (var signal in signals)
+        {
+            if (signal == null)
+            {
+                Debug.Log(gameObject.name);
+            }
+            signal.enabled = activate;
+        }
     }
 
     void OnTriggerEnter()

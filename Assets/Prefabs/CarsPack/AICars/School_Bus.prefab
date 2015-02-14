@@ -412,7 +412,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100022}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -28.761816, y: 65.3257599, z: 22.3371372}
+  m_LocalPosition: {x: 13.2549734, y: 10.752183, z: 1656.43738}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400008}
@@ -790,8 +790,8 @@ MonoBehaviour:
   - {fileID: 2300010}
   - {fileID: 2300014}
   LeftSignals:
-  - {fileID: 2300016}
   - {fileID: 2300012}
+  - {fileID: 2300016}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1

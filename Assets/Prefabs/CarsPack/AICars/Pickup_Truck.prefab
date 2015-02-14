@@ -385,7 +385,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100020}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -21.1911945, y: 48.0982437, z: 18.442421}
+  m_LocalPosition: {x: -.0398421288, y: -1.22675133, z: 7.31560373}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400008}
@@ -759,11 +759,11 @@ MonoBehaviour:
   TargetAcceleration: 1
   Forward: 0
   RightSignals:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 2300010}
+  - {fileID: 2300014}
   LeftSignals:
   - {fileID: 2300012}
-  - {fileID: 2300014}
+  - {fileID: 2300016}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
