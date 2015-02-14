@@ -176,6 +176,9 @@ public class CarDriver : MonoBehaviour
             velocity.z = Mathf.Clamp(velocity.z, -MaxSpeed, 0);
 
         }
+
+        velocity.x = Mathf.Lerp(velocity.x, 0, Time.deltaTime);
+
         _rigidbody.velocity = velocity;
 
         if (Dead)

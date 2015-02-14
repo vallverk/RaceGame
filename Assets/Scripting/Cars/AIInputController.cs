@@ -29,6 +29,8 @@ public class AIInputController : MonoBehaviour
     private bool BlinkingLeft;
     private bool BlinkOn;
 
+    private bool _setVelocity;
+
 
     void Awake()
     {
@@ -50,6 +52,12 @@ public class AIInputController : MonoBehaviour
 
     private void UpdateMovement()
     {
+        if (!_setVelocity)
+        {
+            rigidbody.velocity += new Vector3(0,0, Forward ? -15f : 15f);
+            _setVelocity = true;
+        }
+
         RaycastHit hit;
         if (rigidbody.SweepTest(transform.forward, out hit, 15))
         {
@@ -86,7 +94,7 @@ public class AIInputController : MonoBehaviour
         if (_canChangeDir)
         {
             var result = Random.Range(0f, 1f);
-            if (result > 0.4f)
+            if (result > 0.25f)
             {
                 StartCoroutine(StartChangeLane());
             }
@@ -104,38 +112,39 @@ public class AIInputController : MonoBehaviour
         BlinkingLeft = Random.value > 0.5f;
         float x = BlinkingLeft ? 3 : 7;
         if (Forward) x *= -1;
-        
+
         if (Math.Abs(x - TargetX) < 0.1f)
         {
             yield return null;
         }
-
-        int blinksCount = 2 + Random.Range(0, 1);
-
-        ActivateSignals(LeftSignals, false);
-        ActivateSignals(RightSignals, false);
-
-        for (int i = 0; i < blinksCount; i++)
+        else
         {
-            ActivateSignals(GetSignals(), true);
-            yield return new WaitForSeconds(0.2f);
-            ActivateSignals(GetSignals(), false);
-            yield return new WaitForSeconds(0.2f);
+            int blinksCount = 2 + Random.Range(0, 1);
+
+            ActivateSignals(LeftSignals, false);
+            ActivateSignals(RightSignals, false);
+
+            for (int i = 0; i < blinksCount; i++)
+            {
+                ActivateSignals(GetSignals(), true);
+                yield return new WaitForSeconds(0.2f);
+                ActivateSignals(GetSignals(), false);
+                yield return new WaitForSeconds(0.2f);
+            }
+
+            TargetX = x;
+            _canMove = true;
+
+            StartCoroutine(TestTimer());
+
+            for (int i = 0; i < blinksCount*2; i++)
+            {
+                ActivateSignals(GetSignals(), true);
+                yield return new WaitForSeconds(0.2f);
+                ActivateSignals(GetSignals(), false);
+                yield return new WaitForSeconds(0.2f);
+            }
         }
-
-        TargetX = x;
-        _canMove = true;
-        
-        StartCoroutine(TestTimer());
-
-        for (int i = 0; i < blinksCount; i++)
-        {
-            ActivateSignals(GetSignals(), true);
-            yield return new WaitForSeconds(0.2f);
-            ActivateSignals(GetSignals(), false);
-            yield return new WaitForSeconds(0.2f);
-        }
-
     }
 
     private Renderer[] GetSignals()
@@ -167,7 +176,7 @@ public class AIInputController : MonoBehaviour
     private IEnumerator TestTimer()
     {
         _canChangeDir = false;
-        yield return new WaitForSeconds(1.5f + Random.Range(0f,2f));
+        yield return new WaitForSeconds(0.5f + Random.Range(0f,2f));
         _canChangeDir = true;
     }
 }
