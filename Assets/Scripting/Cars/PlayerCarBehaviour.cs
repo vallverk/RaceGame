@@ -21,6 +21,7 @@ public class PlayerCarBehaviour : MonoBehaviour
     {
         _driver = GetComponent<CarDriver>();
         _maxSpeed = _driver.MaxSpeed;
+        _driver.CreateSkidmarks = true;
     }
 
     void Start()
@@ -69,7 +70,6 @@ public class PlayerCarBehaviour : MonoBehaviour
         yield return new WaitForSeconds(5);
         EventController.PostEvent("car.player.death", gameObject);
     }
-
     void OnCollisionEnter(Collision col)
     {
         if (col.gameObject.CompareTag("Ground"))
@@ -110,6 +110,9 @@ public class PlayerCarBehaviour : MonoBehaviour
                 }
 
                 this._driver.WheelsRoot.gameObject.SetActive(true);
+
+                rigidbody.useGravity = true;
+                rigidbody.freezeRotation = false;
             }
         }
     }

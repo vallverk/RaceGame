@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Runtime.Remoting.Messaging;
 
 [RequireComponent(typeof(Rigidbody))]
 public class CarDriver : MonoBehaviour 
@@ -44,6 +45,8 @@ public class CarDriver : MonoBehaviour
 
     public bool Dead;
 
+    public bool CreateSkidmarks = false;
+
     public float Speed { get { return PhysicRBWheel.rpm * 0.10472f * PhysicRBWheel.radius; } }
 
     public AnimationCurve AccelarationCurve;
@@ -55,7 +58,8 @@ public class CarDriver : MonoBehaviour
 
     public float RotationSpeed = 1f;
     public float RotationAmount = 1f;
-
+    private int lastSkidIndex = -1;
+    private int lastSkidIndex2 = -1;
     public bool CheckGrounded()
     {
         return PhysicRFWheel.isGrounded && 
@@ -70,6 +74,8 @@ public class CarDriver : MonoBehaviour
         _rigidbody = gameObject.rigidbody;
         AccelarationCurve = ConstantsStorage.I.AccelerationCurveSlow;
         _rigidbody.freezeRotation = true;
+
+
     }
 
     void Update()
@@ -98,12 +104,21 @@ public class CarDriver : MonoBehaviour
                 foreach (Renderer r in BreakingHeadLights)
                     r.enabled = true;
         }
+
+
     }
+
+
 
     void FixedUpdate()
     {
         UpdatePhysics();
+
+        UpdateSkidmarks();
     }
+
+
+
 
     private float _lastAcceleration;
 
@@ -198,7 +213,7 @@ public class CarDriver : MonoBehaviour
 
         _lastAcceleration = (oldVelocity - velocity.z) * _UpDownBodySensetivity;
         _lastAcceleration = Mathf.Clamp(_lastAcceleration, -_maxUpDownBodyMovement*0.5f, _maxUpDownBodyMovement*1.5f);
-        _lastAcceleration = Mathf.Lerp(_lastAcceleration, 0, Time.deltaTime);
+        _lastAcceleration = Mathf.Lerp(_lastAcceleration, 0, Time.fixedDeltaTime);
 
 
         _currentUpDown += _lastAcceleration;
@@ -218,6 +233,28 @@ public class CarDriver : MonoBehaviour
         _rigidbody.MovePosition(transform.position + new Vector3(steer*Time.fixedDeltaTime, 0, 0));
 
 
+    }
+    
+    private void UpdateSkidmarks()
+    {
+        if (CreateSkidmarks)
+        {
+            if (_lastAcceleration > 0.2f && _rigidbody.velocity.z > 60)
+            {
+                CreateSkidmark();
+            }
+            else
+            {
+                lastSkidIndex = -1;
+                lastSkidIndex2 = -1;
+            }
+        }
+    }
+
+    private void CreateSkidmark()
+    {
+        lastSkidIndex = Skidmark.Instance.AddSkidMark(transform.position + new Vector3(-0.7f, 0, 4), Vector3.up, 0.6f, lastSkidIndex);
+        lastSkidIndex2 = Skidmark.Instance.AddSkidMark(transform.position + new Vector3(0.7f, 0, 4), Vector3.up, 0.6f, lastSkidIndex2);
     }
 
     void UpdateVisuals()
