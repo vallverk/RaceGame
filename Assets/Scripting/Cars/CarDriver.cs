@@ -69,6 +69,7 @@ public class CarDriver : MonoBehaviour
         gameObject.rigidbody.centerOfMass = COM;
         _rigidbody = gameObject.rigidbody;
         AccelarationCurve = ConstantsStorage.I.AccelerationCurveSlow;
+        _rigidbody.freezeRotation = true;
     }
 
     void Update()
@@ -204,7 +205,6 @@ public class CarDriver : MonoBehaviour
         _currentUpDown = Mathf.Clamp(_currentUpDown, -_maxUpDownBodyMovement, _maxUpDownBodyMovement);
 
         _currentUpDown = Mathf.Lerp(_currentUpDown, 0, Time.fixedDeltaTime);
-
 
 
 

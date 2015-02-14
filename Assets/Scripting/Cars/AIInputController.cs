@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Runtime.Serialization.Formatters;
+using System.Timers;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(CarDriver))]
@@ -31,7 +32,7 @@ public class AIInputController : MonoBehaviour
 
     private bool _setVelocity;
 
-
+    private const float rotAmout = 5.5f;
     void Awake()
     {
         _driver = GetComponent<CarDriver>();
@@ -43,8 +44,8 @@ public class AIInputController : MonoBehaviour
         ActivateSignals(LeftSignals, false);
         ActivateSignals(RightSignals, false);
 
-        _driver.RotationSpeed = 0.55f;
-        _driver.RotationAmount = 1.5f;
+        _driver.RotationSpeed = 0.35f;
+        _driver.RotationAmount = rotAmout;
     }
 
     void Update()
@@ -55,9 +56,11 @@ public class AIInputController : MonoBehaviour
 
     private void UpdateMovement()
     {
+        _driver.RotationAmount = Forward ? -rotAmout : rotAmout;  
+
         if (!_setVelocity)
         {
-            rigidbody.velocity += new Vector3(0,0, Forward ? -15f : 15f);
+            rigidbody.velocity += new Vector3(0,0, Forward ? -45f : 45f);
             _setVelocity = true;
         }
 
@@ -72,14 +75,13 @@ public class AIInputController : MonoBehaviour
         }
 
 
+        if (Mathf.Abs(transform.position.x - TargetX) < 0.25f)
+        {
+            _canMove = false;
+        }
         if (_canMove)
         {
-            if (Mathf.Abs(transform.position.x - TargetX) < 0.15f)
-            {
-                _steer = 0;
-                _canMove = false;
-            }
-            else if (TargetX < transform.position.x)
+            if (TargetX < transform.position.x)
             {
                 _steer = Mathf.Lerp(_steer, -1, Time.deltaTime*0.25f);
             }
@@ -88,6 +90,11 @@ public class AIInputController : MonoBehaviour
                 _steer = Mathf.Lerp(_steer, 1, Time.deltaTime*0.25f);
             }
         }
+        else
+        {
+            _steer = Mathf.Lerp(_steer, 0, Time.deltaTime*10f);
+        }
+
 
         _driver.CurrentWheelsSteer = _steer;
     }

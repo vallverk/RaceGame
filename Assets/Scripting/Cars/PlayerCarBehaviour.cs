@@ -85,30 +85,32 @@ public class PlayerCarBehaviour : MonoBehaviour
             foreach (WheelCollider wcol in _cols)
                 wcol.sidewaysFriction = curve;
         } else
-        {  
-            if (!col.gameObject.CompareTag("Road") && col.relativeVelocity.magnitude>15f)
-            if (Time.time - _lastDTime > 5)
+        {
+            if (!GetComponent<CarDriver>().Dead)
             {
-                Lifes--;
-                EventController.PostEvent("update.car.health",gameObject);
-                if (Lifes >= 0)
-                    StartCoroutine("Immortal");
-                else
+                if (!col.gameObject.CompareTag("Road") && col.relativeVelocity.magnitude > 15f)
+                    if (Time.time - _lastDTime > 5)
+                    {
+                        Lifes--;
+                        EventController.PostEvent("update.car.health", gameObject);
+                        if (Lifes >= 0)
+                            StartCoroutine("Immortal");
+                        else
+                        {
+                            EventController.PostEvent("car.player.death", gameObject);
+                            GetComponent<CarDriver>().Dead = true;
+                        }
+                        _lastDTime = Time.time;
+                    }
+
+                if (col.gameObject.CompareTag("OutWorld"))
                 {
-                    EventController.PostEvent("car.player.death", gameObject);
-                    GetComponent<CarDriver>().Dead = true;
+                    if (col.contacts.Length > 0)
+                        rigidbody.AddForce(col.contacts[0].normal*0.05f, ForceMode.Impulse);
                 }
-                _lastDTime = Time.time;
-            }
 
-            if (col.gameObject.CompareTag("OutWorld"))
-            {
-                if (col.contacts.Length > 0)
-                    rigidbody.AddForce(col.contacts [0].normal * 0.05f, ForceMode.Impulse);
+                this._driver.WheelsRoot.gameObject.SetActive(true);
             }
-
-            rigidbody.useGravity = true;
-            this._driver.WheelsRoot.gameObject.SetActive(true);
         }
     }
 

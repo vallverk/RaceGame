@@ -94,7 +94,7 @@ public class Spawner : MonoBehaviour, IEventSubscriber
         car.transform.position = carPos;
         while (car.rigidbody.SweepTest(Vector3.down,out hit,6))
         {
-            carPos.z += 45*(forward?-1:1);
+            carPos.z += 45*(forward?1:-1);
             car.transform.position = carPos;
         }
         carPos.y = 0;
