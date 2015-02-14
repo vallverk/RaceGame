@@ -11,6 +11,9 @@ public class AIInputController : MonoBehaviour
 
     public bool Forward;
 
+    public Renderer[] RightSignals;
+    public Renderer[] LeftSignals;
+
     private CarDriver _driver;
     private bool _canChangeDir;
     private bool _canMove;
@@ -76,6 +79,7 @@ public class AIInputController : MonoBehaviour
             var result = Random.Range(0f, 1f);
             if (result > 0.4f)
             {
+                StartCoroutine(StartChangeLane());
                 float x = Random.value > 0.5f ? 3 : 7;
                 if (Forward) x *= -1;
                 TargetX = x;
@@ -84,6 +88,11 @@ public class AIInputController : MonoBehaviour
             StartCoroutine(TestTimer());
         }
 
+    }
+
+    private IEnumerator StartChangeLane()
+    {
+        
     }
 
     void OnTriggerEnter()
