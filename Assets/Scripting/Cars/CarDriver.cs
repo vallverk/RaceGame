@@ -41,6 +41,8 @@ public class CarDriver : MonoBehaviour
     [Range(-1,1)]
     public float CurrentWheelsSteer = 0;
 
+    public bool Nitro;
+
     public float throttle;
 
     public bool Dead;
@@ -60,6 +62,9 @@ public class CarDriver : MonoBehaviour
     public float RotationAmount = 1f;
     private int lastSkidIndex = -1;
     private int lastSkidIndex2 = -1;
+
+    private float _currentMaxSpeed = 0;
+
     public bool CheckGrounded()
     {
         return PhysicRFWheel.isGrounded && 
@@ -74,6 +79,8 @@ public class CarDriver : MonoBehaviour
         _rigidbody = gameObject.rigidbody;
         AccelarationCurve = ConstantsStorage.I.AccelerationCurveSlow;
         _rigidbody.freezeRotation = true;
+
+        _currentMaxSpeed = MaxSpeed;
 
 
     }
@@ -131,6 +138,11 @@ public class CarDriver : MonoBehaviour
             CurrentWheelsSteer = 0;
         }
 
+        if (CurrentAcceleration < 0)
+        {
+            Nitro = false;
+        }
+
         // some magic...
         float steer = CurrentWheelsSteer * MaxWheelsSteer*2.5f;
 
@@ -144,9 +156,17 @@ public class CarDriver : MonoBehaviour
 
         acceleration *= 0.5f;
 
+        if (Nitro)
+        {
+            acceleration *= 2.5f;
+        }
+
         if (CurrentAcceleration > 0)
         {
-            acceleration *= AccelarationCurve.Evaluate(_rigidbody.velocity.z);
+            if (!Nitro)
+            {
+                acceleration *= AccelarationCurve.Evaluate(_rigidbody.velocity.z);
+            }
         }
         else
         {
@@ -186,13 +206,18 @@ public class CarDriver : MonoBehaviour
             velocity += new Vector3(0, 0, acceleration * Time.fixedDeltaTime);
         }
 
+        float maxSpeedMod = Nitro ? 1.5f : 1f;
+
+        _currentMaxSpeed = Mathf.Lerp(_currentMaxSpeed, MaxSpeed*maxSpeedMod, Time.deltaTime*2.5f);
+
+
         if (forward)
         {
-            velocity.z = Mathf.Clamp(velocity.z, 0, MaxSpeed);
+            velocity.z = Mathf.Clamp(velocity.z, 0, _currentMaxSpeed);
         }
         else
         {
-            velocity.z = Mathf.Clamp(velocity.z, -MaxSpeed, 0);
+            velocity.z = Mathf.Clamp(velocity.z, -_currentMaxSpeed, 0);
 
         }
 
@@ -239,7 +264,7 @@ public class CarDriver : MonoBehaviour
     {
         if (CreateSkidmarks)
         {
-            if (_lastAcceleration > 0.2f && _rigidbody.velocity.z > 60)
+            if (_lastAcceleration > 0.4f && _rigidbody.velocity.z > 60 && CurrentAcceleration < 0)
             {
                 CreateSkidmark();
             }

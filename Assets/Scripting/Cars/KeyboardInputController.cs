@@ -19,5 +19,6 @@ public class KeyboardInputController : MonoBehaviour
     {
         _driver.CurrentAcceleration = Input.GetAxis("Vertical");  //4
         _driver.CurrentWheelsSteer = Input.GetAxis("Horizontal");     //4    
+        _driver.Nitro = Input.GetKey(KeyCode.E);
     }
 }
