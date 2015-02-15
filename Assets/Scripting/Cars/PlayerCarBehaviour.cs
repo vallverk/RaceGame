@@ -2,8 +2,10 @@
 using System.Collections;
 
 [RequireComponent(typeof(CarDriver))]
-public class PlayerCarBehaviour : MonoBehaviour 
+public class PlayerCarBehaviour : MonoBehaviour
 {
+    public static PlayerCarBehaviour Instance;
+
     private CarDriver _driver;
     private float _maxSpeed = 0;
 
@@ -22,6 +24,7 @@ public class PlayerCarBehaviour : MonoBehaviour
         _driver = GetComponent<CarDriver>();
         _maxSpeed = _driver.MaxSpeed;
         _driver.CreateSkidmarks = true;
+        Instance = this;
     }
 
     void Start()
@@ -75,20 +78,11 @@ public class PlayerCarBehaviour : MonoBehaviour
         if (col.gameObject.CompareTag("Ground"))
         {
             _driver.MaxSpeed = _maxSpeed * 0.2f;
-
-            WheelFrictionCurve curve = new WheelFrictionCurve();
-            curve.extremumSlip = 0.1f;
-            curve.extremumValue = 200;
-            curve.asymptoteSlip = 0.5f;
-            curve.asymptoteValue = 100;
-            curve.stiffness = 1;
-            foreach (WheelCollider wcol in _cols)
-                wcol.sidewaysFriction = curve;
         } else
         {
             if (!GetComponent<CarDriver>().Dead)
             {
-                if (!col.gameObject.CompareTag("Road") && col.relativeVelocity.magnitude > 15f)
+                if (!col.gameObject.CompareTag("Road"))
                     if (Time.time - _lastDTime > 5)
                     {
                         Lifes--;
@@ -124,26 +118,26 @@ public class PlayerCarBehaviour : MonoBehaviour
         EventController.PostEvent("car.player.immortal.end", null);
     }
 
-    void OnCollisionStay(Collision col)
-    {
-        if (col.gameObject.CompareTag("OutWorld"))
-        {
-            if (col.contacts.Length>0)
-                rigidbody.AddForce(col.contacts[0].normal*0.02f,ForceMode.Impulse);
-        }
-
-        if (!col.gameObject.CompareTag("Road") && !col.gameObject.CompareTag("Ground") && col.relativeVelocity.magnitude>15f)
-            if (Time.time - _lastDTime > 5)
-        {
-            Lifes--;
-            EventController.PostEvent("update.car.health",gameObject);
-            if (Lifes>=0)
-                StartCoroutine("Immortal");
-            else
-                EventController.PostEvent("car.player.death",gameObject);
-            _lastDTime = Time.time;
-        }
-    }
+//    void OnCollisionStay(Collision col)
+//    {
+//        if (col.gameObject.CompareTag("OutWorld"))
+//        {
+//            if (col.contacts.Length>0)
+//                rigidbody.AddForce(col.contacts[0].normal*0.02f,ForceMode.Impulse);
+//        }
+//
+//        if (!col.gameObject.CompareTag("Road") && !col.gameObject.CompareTag("Ground") && col.relativeVelocity.magnitude>15f)
+//            if (Time.time - _lastDTime > 5)
+//        {
+//            Lifes--;
+//            EventController.PostEvent("update.car.health",gameObject);
+//            if (Lifes>=0)
+//                StartCoroutine("Immortal");
+//            else
+//                EventController.PostEvent("car.player.death",gameObject);
+//            _lastDTime = Time.time;
+//        }
+//    }
 
     void OnCollisionExit(Collision col)
     {

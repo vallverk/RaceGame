@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.Remoting.Messaging;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -65,6 +67,9 @@ public class CarDriver : MonoBehaviour
 
     private float _currentMaxSpeed = 0;
 
+
+    public static List<Transform> Drivers = new List<Transform>();
+
     public bool CheckGrounded()
     {
         return PhysicRFWheel.isGrounded && 
@@ -82,7 +87,19 @@ public class CarDriver : MonoBehaviour
 
         _currentMaxSpeed = MaxSpeed;
 
+        Drivers.Add(transform);
 
+
+    }
+
+    private void OnDisable()
+    {
+        Drivers.Remove(transform);
+    }
+
+    private void OnDestroy()
+    {
+        Drivers.Remove(transform);
     }
 
     void Update()
@@ -168,14 +185,6 @@ public class CarDriver : MonoBehaviour
                 acceleration *= AccelarationCurve.Evaluate(_rigidbody.velocity.z);
             }
         }
-        else
-        {
-            if (_rigidbody.velocity.z < 0)
-            {
-                acceleration *= 0.05f;
-            }
-        }
-
 
         float angle = transform.localEulerAngles.y;
 
@@ -183,7 +192,7 @@ public class CarDriver : MonoBehaviour
 
 
 
-        bool forward = true;
+        bool forward;
         if ((angle > 269 && angle < 360) || (angle >= 0 && angle < 90))
         {
             forward = true;
@@ -199,7 +208,7 @@ public class CarDriver : MonoBehaviour
 
         if (Mathf.Approximately(acceleration, 0f))
         {
-            velocity.z = Mathf.MoveTowards(velocity.z, 0, Time.fixedDeltaTime*Friction*(Dead ? 2f : 1f));
+            velocity.z = Mathf.MoveTowards(velocity.z, 0, Time.fixedDeltaTime*Friction*(Dead ? 4f : 1f));
         }
         else
         {
@@ -208,7 +217,7 @@ public class CarDriver : MonoBehaviour
 
         float maxSpeedMod = Nitro ? 1.5f : 1f;
 
-        _currentMaxSpeed = Mathf.Lerp(_currentMaxSpeed, MaxSpeed*maxSpeedMod, Time.deltaTime*2.5f);
+        _currentMaxSpeed = Mathf.Lerp(_currentMaxSpeed, MaxSpeed*maxSpeedMod, Time.fixedDeltaTime*2.5f);
 
 
         if (forward)
@@ -221,7 +230,7 @@ public class CarDriver : MonoBehaviour
 
         }
 
-        velocity.x = Mathf.Lerp(velocity.x, 0, Time.deltaTime);
+        velocity.x = Mathf.Lerp(velocity.x, 0, Time.fixedDeltaTime);
 
         _rigidbody.velocity = velocity;
 
@@ -317,7 +326,7 @@ public class CarDriver : MonoBehaviour
             ? CurrentWheelsSteer*_rigidbody.velocity.z/10f
             : CurrentWheelsSteer;
 
-        var targetAngle = new Vector3(_lastAcceleration, 15*steer*RotationAmount, steer*15f);
+        var targetAngle = new Vector3(_lastAcceleration * (IsPlayer ? 1 : 0), 15*steer*RotationAmount, steer*15f);
 
         angle.y = Mathf.LerpAngle(angle.y, targetAngle.y * RotationSpeed, Time.deltaTime * 11.5f);
         angle.x = Mathf.LerpAngle(angle.x, targetAngle.x, Time.deltaTime*20.5f);
@@ -325,6 +334,25 @@ public class CarDriver : MonoBehaviour
         Body.localEulerAngles = angle;
     }
 
+    public bool OtherCarIsClose(float distance)
+    {
+        foreach (var driver in Drivers)
+        {
+            bool result = driver.gameObject != transform.gameObject;
+            if (result)
+            {
+                float distanceToDriver = Vector3.Distance(driver.position, transform.position);
+
+                if (distanceToDriver < distance)
+                {
+                    Debug.Log(distanceToDriver);
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 
     private void OnCollisionEnter(Collision col)
     {

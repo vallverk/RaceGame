@@ -32,6 +32,8 @@ public class AIInputController : MonoBehaviour
 
     private bool _setVelocity;
 
+    private bool _overtook;
+
     private const float rotAmout = 5.5f;
     void Awake()
     {
@@ -48,11 +50,15 @@ public class AIInputController : MonoBehaviour
         _driver.RotationAmount = rotAmout;
     }
 
-    void Update()
+    private void Update()
     {
         UpdateMovement();
         UpdateLineChanging();
+
+        UpdateScore();
     }
+
+
 
     private void UpdateMovement()
     {
@@ -106,7 +112,15 @@ public class AIInputController : MonoBehaviour
             var result = Random.Range(0f, 1f);
             if (result > 0.25f)
             {
-                StartCoroutine(StartChangeLane());
+                if (CheckSides())
+                {
+                    StartCoroutine(StartChangeLane());
+                }
+                else
+                {
+                    StartCoroutine(TestTimer());
+                }
+
             }
             else
             {
@@ -114,6 +128,8 @@ public class AIInputController : MonoBehaviour
             }
         }
     }
+
+
 
     private IEnumerator StartChangeLane()
     {
@@ -142,9 +158,11 @@ public class AIInputController : MonoBehaviour
                 ActivateSignals(GetSignals(), false);
                 yield return new WaitForSeconds(0.2f);
             }
-
-            TargetX = x;
-            _canMove = true;
+            if (CheckSides())
+            {
+                TargetX = x;
+                _canMove = true;
+            }
 
             StartCoroutine(TestTimer());
 
@@ -158,13 +176,26 @@ public class AIInputController : MonoBehaviour
         }
     }
 
+    private void UpdateScore()
+    {
+        if (!_overtook && !Forward)
+        {
+            if (transform.position.z < PlayerCarBehaviour.Instance.transform.position.z - 2)
+            {
+                _overtook = true;
+                ScoreSystem.Instance.CarOvertook();
+            }
+        }
+    }
+
+    private bool CheckSides()
+    {
+        return !_driver.OtherCarIsClose(10.5f);
+    }
+
     private Renderer[] GetSignals()
     {
         return BlinkingLeft ? LeftSignals : RightSignals;
-    }    
-    private Renderer[] GetOppositeSignals()
-    {
-        return BlinkingLeft ? RightSignals : LeftSignals;
     }
 
     private void ActivateSignals(Renderer[] signals, bool activate)

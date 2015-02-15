@@ -14,6 +14,8 @@ public class Spawner : MonoBehaviour, IEventSubscriber
     public float SpawnDistance = 1250;
     public float SpawnDistanceBack = 100;
 
+    public AnimationCurve SpawnTimeSpeed;
+
     private List<Transform> SpawnedCars;
     private Transform _playerCar;
 
@@ -56,7 +58,7 @@ public class Spawner : MonoBehaviour, IEventSubscriber
     {
         while (true)
         {
-            yield return new WaitForSeconds(Random.Range(SpawnTime, MaxSpawnTime));
+            yield return new WaitForSeconds(Random.Range(SpawnTime, MaxSpawnTime)*SpawnTimeSpeed.Evaluate(PlayerCarBehaviour.Instance.rigidbody.velocity.z));
             if (SpawnedCars.Count<MaxCarCount)
                 SpawnNewCar();
         }
@@ -95,7 +97,7 @@ public class Spawner : MonoBehaviour, IEventSubscriber
         car.transform.position = carPos;
         while (car.rigidbody.SweepTest(Vector3.down,out hit,6))
         {
-            carPos.z += 45*(forward?1:-1);
+            carPos.z += 25*(forward?1:-1);
             car.transform.position = carPos;
         }
         carPos.y = 0;
