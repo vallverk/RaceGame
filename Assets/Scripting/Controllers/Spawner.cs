@@ -8,7 +8,8 @@ public class Spawner : MonoBehaviour, IEventSubscriber
 
     public int MinCarsCount = 15;
     public int MaxCarCount = 25;
-    public float SpawnTime = 1;
+    public float SpawnTime = 0.25f;
+    public float MaxSpawnTime = 1.5f;
 
     public float SpawnDistance = 1250;
     public float SpawnDistanceBack = 100;
@@ -55,7 +56,7 @@ public class Spawner : MonoBehaviour, IEventSubscriber
     {
         while (true)
         {
-            yield return new WaitForSeconds(SpawnTime);
+            yield return new WaitForSeconds(Random.Range(SpawnTime, MaxSpawnTime));
             if (SpawnedCars.Count<MaxCarCount)
                 SpawnNewCar();
         }

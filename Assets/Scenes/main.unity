@@ -2070,7 +2070,8 @@ MonoBehaviour:
   - {fileID: 100020, guid: 1c1b48beb926741c3abe46c17e2883af, type: 2}
   MinCarsCount: 0
   MaxCarCount: 10
-  SpawnTime: .75
+  SpawnTime: .300000012
+  MaxSpawnTime: 1.5
   SpawnDistance: 150
   SpawnDistanceBack: 50
 --- !u!114 &1376534142
