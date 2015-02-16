@@ -345,7 +345,6 @@ public class CarDriver : MonoBehaviour
 
                 if (distanceToDriver < distance)
                 {
-                    Debug.Log(distanceToDriver);
                     return true;
                 }
             }

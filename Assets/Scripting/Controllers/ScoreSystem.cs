@@ -21,18 +21,24 @@ public class ScoreSystem:MonoBehaviour
 
     private void Update()
     {
-        if (PlayerDoingHighSpeed)
+        if (PlayerIsOnRoad)
         {
+            if (PlayerDoingHighSpeed)
+            {
 
-            Score += 3 * Time.deltaTime * (PlayerSpeed/70f);
+                Score += 3*Time.deltaTime*(PlayerSpeed/70f);
+            }
         }
-
         ScoreText.text = Score.ToString("F0");
+
     }
 
     public void CarOvertook()
     {
-        Score += 50;
+        if (PlayerIsOnRoad)
+        {
+            Score += 50;
+        }
     }
 
 
@@ -41,10 +47,20 @@ public class ScoreSystem:MonoBehaviour
         get { return PlayerSpeed > 65; }
     }
 
+    private bool PlayerIsOnRoad
+    {
+        get { return PlayerX > -9.3f && PlayerX < 9.7f; }
+    }
+
 
     private float PlayerSpeed
     {
         get { return PlayerCarBehaviour.Instance.rigidbody.velocity.z; }
     }
 
+
+    private float PlayerX
+    {
+        get { return PlayerCarBehaviour.Instance.transform.position.x; }
+    }
 }
