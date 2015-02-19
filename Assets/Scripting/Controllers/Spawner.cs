@@ -12,7 +12,7 @@ public class Spawner : MonoBehaviour, IEventSubscriber
     public float MaxSpawnTime = 1.5f;
 
     public float SpawnDistance = 1250;
-    public float SpawnDistanceBack = 100;
+    public float SpawnDistanceBack = 0;//100
 
     public AnimationCurve SpawnTimeSpeed;
 

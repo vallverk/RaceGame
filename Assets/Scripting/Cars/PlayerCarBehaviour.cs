@@ -49,8 +49,9 @@ public class PlayerCarBehaviour : MonoBehaviour
         if (dist> 1) 
         {
             Distance+=dist;
-            EventController.PostEvent("update.gui.distance",gameObject);
-            _oldPos = transform.position;
+			EventController.PostEvent("update.gui.distance",gameObject);
+			EventController.PostEvent("update.gui.speed",gameObject);
+			_oldPos = transform.position;
         }
 
 //        bool g = _driver.CheckGrounded();
@@ -70,7 +71,7 @@ public class PlayerCarBehaviour : MonoBehaviour
 
     IEnumerator UpsideCar()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(3);
         EventController.PostEvent("car.player.death", gameObject);
     }
     void OnCollisionEnter(Collision col)

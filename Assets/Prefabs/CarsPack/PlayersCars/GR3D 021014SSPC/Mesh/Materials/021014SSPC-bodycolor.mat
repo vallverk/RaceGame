@@ -17,7 +17,7 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: 433e973e9d5224408a2bafde232f334d, type: 3}
+          m_Texture: {fileID: 2800000, guid: 470bf44eefd145245a82b15606f6f23c, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -29,16 +29,16 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _Decal
+          name: _Cube
         second:
-          m_Texture: {fileID: 0}
+          m_Texture: {fileID: 8900000, guid: b584c6711d5d5f946b59dd1091fcea6c, type: 2}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _Cube
+          name: _Decal
         second:
-          m_Texture: {fileID: 8900000, guid: b584c6711d5d5f946b59dd1091fcea6c, type: 2}
+          m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:

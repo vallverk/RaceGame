@@ -3,7 +3,8 @@ using System.Collections;
 
 public class GameController : MonoBehaviour, IEventSubscriber
 {
-    private bool _deathScreen;
+	private bool _deathScreen;
+	private bool paused = false;
 
     void Awake()
     {
@@ -34,12 +35,15 @@ public class GameController : MonoBehaviour, IEventSubscriber
                 if (!_deathScreen)
                 {
                     Time.timeScale = 0;
+					Time.fixedDeltaTime = 0.02f * Time.timeScale;
+					paused = true;
                 }
                 GoogleAnalytics.Log("screen.main.pause");
                 break;
 
             case "gui.screen.game.show":
-                Time.timeScale = 1;
+            //    Time.timeScale = 1;
+				paused = false;
                 break;
 
             case "level.restart":
@@ -56,7 +60,7 @@ public class GameController : MonoBehaviour, IEventSubscriber
 
             case "car.player.death":
                                _deathScreen = true;
-                Time.timeScale = 1;
+                Time.timeScale = 0.2f;
 
                 int cs = (int)Sender.GetComponent<PlayerCarBehaviour>().Distance;
                 int os = PlayerPrefs.HasKey("Score")?PlayerPrefs.GetInt("Score"):0;
@@ -70,6 +74,22 @@ public class GameController : MonoBehaviour, IEventSubscriber
                 break;
         }
     }
+
+	void Update()
+	{
+		if (paused == false && Time.timeScale < 1)
+		{
+			Time.timeScale += 0.002f;
+			Time.fixedDeltaTime = 0.02f * Time.timeScale;
+		}
+
+		if (Time.timeScale > 1)
+		{
+			paused = true;
+			Time.timeScale = 1;
+		}
+
+	}
 
     #endregion
 }

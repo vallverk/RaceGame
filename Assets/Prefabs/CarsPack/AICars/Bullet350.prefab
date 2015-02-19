@@ -156,7 +156,7 @@ GameObject:
   - 4: {fileID: 400018}
   - 65: {fileID: 6500000}
   m_Layer: 0
-  m_Name: Bullet350Body
+  m_Name: CarBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -414,7 +414,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100010}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.02368832, y: -3.31963396, z: 1106.38171}
+  m_LocalPosition: {x: 7.6091938, y: 0, z: 5.73811722}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400020}
@@ -565,7 +565,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100034}
-  m_LocalRotation: {x: .00399649562, y: .153623745, z: .0256971139, w: .987787127}
+  m_LocalRotation: {x: .00399649609, y: .15362376, z: .0256971158, w: .987787187}
   m_LocalPosition: {x: -.628446579, y: .602355957, z: -2.20959306}
   m_LocalScale: {x: .43882075, y: .400000006, z: .90975076}
   m_Children: []
@@ -939,13 +939,16 @@ MonoBehaviour:
   MaxMotorTorque: 50
   MaxBrakeTorque: 50
   MaxWheelsSteer: 15
-  MaxSpeed: 85
+  MaxSpeed: 70
   Friction: 5
+  _rigidbody: {fileID: 0}
   COM: {x: 0, y: 0, z: 0}
   CurrentAcceleration: 0
   CurrentWheelsSteer: 0
+  Nitro: 0
   throttle: 0
   Dead: 0
+  CreateSkidmarks: 0
   AccelarationCurve:
     serializedVersion: 2
     m_Curve: []

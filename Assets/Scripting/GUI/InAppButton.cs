@@ -72,6 +72,13 @@ public class InAppButton : Button
     {
         base.OnPress(G);
         if (!Bought())
-            GoogleIAB.purchaseProduct(Sku);
+			if (PlayerPrefs.GetInt("Score") > 1999)
+		{
+			PlayerPrefs.SetInt("Score",PlayerPrefs.GetInt("Score")-2000);
+			PlayerPrefs.SetInt(Sku,1);
+
+			UpdateState();
+		}
+            //GoogleIAB.purchaseProduct(Sku);
     }
 }

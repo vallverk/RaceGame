@@ -89,11 +89,11 @@ public class AIInputController : MonoBehaviour
         {
             if (TargetX < transform.position.x)
             {
-                _steer = Mathf.Lerp(_steer, -1, Time.deltaTime*0.25f);
+				_steer = Mathf.Lerp(_steer, -1, Time.deltaTime*0.25f);
             }
             else
             {
-                _steer = Mathf.Lerp(_steer, 1, Time.deltaTime*0.25f);
+				_steer = Mathf.Lerp(_steer, 1, Time.deltaTime*0.25f);
             }
         }
         else
@@ -110,7 +110,7 @@ public class AIInputController : MonoBehaviour
         if (_canChangeDir)
         {
             var result = Random.Range(0f, 1f);
-            if (result > 0.25f)
+            if (result > 0.12f)
             {
                 if (CheckSides())
                 {
@@ -134,6 +134,9 @@ public class AIInputController : MonoBehaviour
     private IEnumerator StartChangeLane()
     {
         _canChangeDir = false;
+
+		// Lane change delay
+		yield return new WaitForSeconds(2);
 
         BlinkingLeft = Random.value > 0.5f;
         float x = BlinkingLeft ? 3 : 7;
@@ -190,7 +193,8 @@ public class AIInputController : MonoBehaviour
 
     private bool CheckSides()
     {
-        return !_driver.OtherCarIsClose(10.5f);
+        //return !_driver.OtherCarIsClose(10.5f);
+		return !_driver.OtherCarIsClose(transform.Find("CarBody").GetComponent<BoxCollider>().size.z * 7f);
     }
 
     private Renderer[] GetSignals()

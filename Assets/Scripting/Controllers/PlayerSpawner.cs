@@ -19,7 +19,7 @@ public class PlayerSpawner : MonoBehaviour
         if (PlayerPrefs.HasKey("CarColor"))
             ColorIndex = PlayerPrefs.GetInt("CarColor");
 
-        GameObject car = GameObject.Instantiate(CarPrefabs [CarIndex], Vector3.zero, Quaternion.Euler(Vector3.zero)) as GameObject;
+        GameObject car = GameObject.Instantiate(CarPrefabs [CarIndex], new Vector3(2.4f,0,0), Quaternion.Euler(Vector3.zero)) as GameObject;
         Ground.CharCar = car.transform;
         Camera.Target = car.transform;
 

@@ -307,7 +307,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.88740325, y: 0, z: -21.976656}
+  m_LocalPosition: {x: -1.45183849, y: -.339685917, z: 24.8417797}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
   - {fileID: 400000}
@@ -839,12 +839,12 @@ MonoBehaviour:
   BreakingHeadLights:
   - {fileID: 2300016}
   - {fileID: 2300014}
-  Body: {fileID: 0}
+  Body: {fileID: 400016}
   VisualLFWheel: {fileID: 400006}
   VisualLBWheel: {fileID: 400004}
   VisualRFWheel: {fileID: 400012}
   VisualRBWheel: {fileID: 400014}
-  WheelsRoot: {fileID: 0}
+  WheelsRoot: {fileID: 400030}
   PhysicLFWheel: {fileID: 14600002}
   PhysicLBWheel: {fileID: 14600004}
   PhysicRFWheel: {fileID: 14600006}
@@ -857,12 +857,17 @@ MonoBehaviour:
   COM: {x: 0, y: 0, z: 0}
   CurrentAcceleration: 0
   CurrentWheelsSteer: 0
+  Nitro: 0
   throttle: 0
+  Dead: 0
+  CreateSkidmarks: 0
   AccelarationCurve:
     serializedVersion: 2
     m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
+  RotationSpeed: 1
+  RotationAmount: 1
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -875,7 +880,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Distance: 0
-  Lifes: 3
+  Lifes: 0
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1

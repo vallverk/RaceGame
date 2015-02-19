@@ -157,7 +157,7 @@ GameObject:
   - 4: {fileID: 400020}
   - 65: {fileID: 6500000}
   m_Layer: 0
-  m_Name: Taxi 1
+  m_Name: CarBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -862,17 +862,21 @@ MonoBehaviour:
   MaxWheelsSteer: 15
   MaxSpeed: 60
   Friction: 5
+  _rigidbody: {fileID: 0}
   COM: {x: 0, y: 0, z: 0}
   CurrentAcceleration: 0
   CurrentWheelsSteer: 0
+  Nitro: 0
   throttle: 0
   Dead: 0
+  CreateSkidmarks: 0
   AccelarationCurve:
     serializedVersion: 2
     m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
   RotationSpeed: 1
+  RotationAmount: 1
 --- !u!146 &14600000
 WheelCollider:
   m_ObjectHideFlags: 1

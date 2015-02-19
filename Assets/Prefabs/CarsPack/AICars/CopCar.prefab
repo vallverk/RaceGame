@@ -157,7 +157,7 @@ GameObject:
   - 4: {fileID: 400018}
   - 65: {fileID: 6500000}
   m_Layer: 0
-  m_Name: CopCar
+  m_Name: CarBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -849,11 +849,14 @@ MonoBehaviour:
   MaxWheelsSteer: 15
   MaxSpeed: 65
   Friction: 5
+  _rigidbody: {fileID: 0}
   COM: {x: 0, y: 0, z: 0}
   CurrentAcceleration: 0
   CurrentWheelsSteer: 0
+  Nitro: 0
   throttle: 0
   Dead: 0
+  CreateSkidmarks: 0
   AccelarationCurve:
     serializedVersion: 2
     m_Curve: []

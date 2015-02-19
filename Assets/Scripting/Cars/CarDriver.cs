@@ -34,7 +34,7 @@ public class CarDriver : MonoBehaviour
 
     public float Friction = 5f;
 
-    private Rigidbody _rigidbody;
+	public Rigidbody _rigidbody;
 
     public Vector3 COM = Vector3.zero;
 
@@ -65,8 +65,9 @@ public class CarDriver : MonoBehaviour
     private int lastSkidIndex = -1;
     private int lastSkidIndex2 = -1;
 
-    private float _currentMaxSpeed = 0;
+	private float SideSpeedMult = 2.5f;
 
+	private float _currentMaxSpeed = 0;
 
     public static List<Transform> Drivers = new List<Transform>();
 
@@ -88,8 +89,6 @@ public class CarDriver : MonoBehaviour
         _currentMaxSpeed = MaxSpeed;
 
         Drivers.Add(transform);
-
-
     }
 
     private void OnDisable()
@@ -133,15 +132,14 @@ public class CarDriver : MonoBehaviour
     }
 
 
-
     void FixedUpdate()
     {
         UpdatePhysics();
 
         UpdateSkidmarks();
+
+		LineMagnet();
     }
-
-
 
 
     private float _lastAcceleration;
@@ -161,7 +159,7 @@ public class CarDriver : MonoBehaviour
         }
 
         // some magic...
-        float steer = CurrentWheelsSteer * MaxWheelsSteer*2.5f;
+		float steer = CurrentWheelsSteer * MaxWheelsSteer * SideSpeedMult;//*2.5f;
 
         steer = Mathf.Abs(_rigidbody.velocity.z) < 10 
             ? steer * _rigidbody.velocity.z / 10f
@@ -241,10 +239,6 @@ public class CarDriver : MonoBehaviour
             return;
         }
 
-
-
-
-
         _lastAcceleration = (oldVelocity - velocity.z) * _UpDownBodySensetivity;
         _lastAcceleration = Mathf.Clamp(_lastAcceleration, -_maxUpDownBodyMovement*0.5f, _maxUpDownBodyMovement*1.5f);
         _lastAcceleration = Mathf.Lerp(_lastAcceleration, 0, Time.fixedDeltaTime);
@@ -255,17 +249,7 @@ public class CarDriver : MonoBehaviour
 
         _currentUpDown = Mathf.Lerp(_currentUpDown, 0, Time.fixedDeltaTime);
 
-
-
-
-
-
-
-
-
-
         _rigidbody.MovePosition(transform.position + new Vector3(steer*Time.fixedDeltaTime, 0, 0));
-
 
     }
     
@@ -329,8 +313,8 @@ public class CarDriver : MonoBehaviour
         var targetAngle = new Vector3(_lastAcceleration * (IsPlayer ? 1 : 0), 15*steer*RotationAmount, steer*15f);
 
         angle.y = Mathf.LerpAngle(angle.y, targetAngle.y * RotationSpeed, Time.deltaTime * 11.5f);
-        angle.x = Mathf.LerpAngle(angle.x, targetAngle.x, Time.deltaTime*20.5f);
-        angle.z = Mathf.LerpAngle(angle.z, targetAngle.z, Time.deltaTime*20.5f);
+        angle.x = Mathf.LerpAngle(angle.x, targetAngle.x, Time.deltaTime*2.5f);
+        angle.z = Mathf.LerpAngle(angle.z, targetAngle.z, Time.deltaTime*2.5f);
         Body.localEulerAngles = angle;
     }
 
@@ -363,4 +347,36 @@ public class CarDriver : MonoBehaviour
         //    Dead = true;
         }
     }
+
+	private void LineMagnet()
+	{
+		if (tag == "PlayerCar")
+		{
+/*
+			if (_rigidbody.transform.position.x > -7.3f && _rigidbody.transform.position.x < -6.7f)
+				SideSpeedMult = 1.5f;
+			else if (_rigidbody.transform.position.x > -2.7f && _rigidbody.transform.position.x < -2.1f)
+				SideSpeedMult = 1.5f;
+			else if (_rigidbody.transform.position.x > 2.1f && _rigidbody.transform.position.x < 2.7f)
+				SideSpeedMult = 1.5f;
+			else if (_rigidbody.transform.position.x > 6.7f && _rigidbody.transform.position.x < 7.3f)
+				SideSpeedMult = 1.5f;
+			else if (_rigidbody.transform.position.x > 7.3f)
+				_rigidbody.MovePosition(transform.position + new Vector3(-0.1f*Time.fixedDeltaTime, 0, 0));
+			else if (_rigidbody.transform.position.x < -7.3f)
+				_rigidbody.MovePosition(transform.position + new Vector3(0.1f*Time.fixedDeltaTime, 0, 0));
+			else
+				SideSpeedMult = 10.5f;
+*/
+			if (Mathf.Abs(_rigidbody.transform.position.x) > 0f && Mathf.Abs(_rigidbody.transform.position.x) < 4.8f)
+				SideSpeedMult = Mathf.Abs(_rigidbody.transform.position.x -2.4f) * 1f + 7f;
+			else if (Mathf.Abs(_rigidbody.transform.position.x) > 4.8f && Mathf.Abs(_rigidbody.transform.position.x) < 7.2f)
+				SideSpeedMult = Mathf.Abs(_rigidbody.transform.position.x -7.2f) * 1f + 7f;
+			else
+				SideSpeedMult = Mathf.Abs(_rigidbody.transform.position.x -7.2f) * 1f + 7f;
+
+			SideSpeedMult *= (300 - _rigidbody.velocity.z)/300;
+
+		}
+	}
 }

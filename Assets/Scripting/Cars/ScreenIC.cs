@@ -41,6 +41,7 @@ public class ScreenIC : MonoBehaviour, IEventSubscriber
 
             case "input.screen.time.down":
                 Time.timeScale = 0.5f;
+				Time.fixedDeltaTime = 0.02f * Time.timeScale;
                 break;
 
             case "input.screen.time.up":
