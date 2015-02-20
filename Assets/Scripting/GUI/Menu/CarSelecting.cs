@@ -3,10 +3,16 @@ using System.Collections;
 
 public class CarSelecting : MonoBehaviour, IEventSubscriber
 {
-    public SpriteRenderer Car1;
-    public SpriteRenderer Car2;
-    public SpriteRenderer Car3;
-    public AudioClip SlideSound = null;
+	public SpriteRenderer Car1;
+	public SpriteRenderer Car2;
+	public SpriteRenderer Car3;
+	public SpriteRenderer Car4;
+	public SpriteRenderer Car5;
+	public SpriteRenderer Car6;
+	public SpriteRenderer Car7;
+	public SpriteRenderer Car8;
+
+	public AudioClip SlideSound = null;
     public Camera MainCamera;
     public string ShowScreenEvent = "gui.screen.car";
 
