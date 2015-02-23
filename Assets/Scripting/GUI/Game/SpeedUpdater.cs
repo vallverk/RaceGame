@@ -5,11 +5,15 @@ using System.Collections;
 public class SpeedUpdater : MonoBehaviour, IEventSubscriber
 {
 	TextMesh _text;
-	
+
+	float CarSpeed;
+
 	void Start () 
 	{
 		_text = GetComponent<TextMesh>();
 		EventController.Subscribe("update.gui.speed", this);
+
+		CarSpeed = GameObject.FindGameObjectWithTag("PlayerCar").rigidbody.velocity.z;
 	}
 	
 	void OnDestroy()
@@ -23,9 +27,13 @@ public class SpeedUpdater : MonoBehaviour, IEventSubscriber
 	{
 		if (EventName == "update.gui.speed")
 		{
-			_text.text = string.Format("{0}",((int)Sender.GetComponent<CarDriver>()._rigidbody.velocity.z).ToString());
+			if (Sender.GetComponent<CarDriver>()._rigidbody.velocity.z > 1)
+				_text.text = string.Format("{0}",((int)(Sender.GetComponent<CarDriver>()._rigidbody.velocity.z*1.35f)).ToString());
+			else
+				_text.text = "0";
 		}
 	}
 	
 	#endregion
+
 }

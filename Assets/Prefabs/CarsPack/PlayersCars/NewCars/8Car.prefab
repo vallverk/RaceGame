@@ -589,7 +589,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100038}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.64230824, y: -.00161170959, z: -7.60862446}
+  m_LocalPosition: {x: 69.3588104, y: 73.186142, z: -70.0354156}
   m_LocalScale: {x: .850000024, y: .850000024, z: .850000024}
   m_Children:
   - {fileID: 400034}
@@ -1014,16 +1014,17 @@ MonoBehaviour:
   PhysicLBWheel: {fileID: 14600004}
   PhysicRFWheel: {fileID: 14600002}
   PhysicRBWheel: {fileID: 14600000}
-  MaxMotorTorque: 70
-  MaxBrakeTorque: 70
+  MaxMotorTorque: 150
+  MaxBrakeTorque: 150
   MaxWheelsSteer: 5
-  MaxSpeed: 90
+  MaxSpeed: 165
   Friction: 5
   _rigidbody: {fileID: 0}
   COM: {x: 0, y: 0, z: 0}
   CurrentAcceleration: 0
   CurrentWheelsSteer: 0
   Nitro: 0
+  NitroPoints: 0
   throttle: 0
   Dead: 0
   CreateSkidmarks: 0
@@ -1080,7 +1081,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b68f86110c0c498f9a849266814c25c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CarBody: {fileID: 0}
+  CarBody: {fileID: 100030}
   MaterialIndex: 0
   Textures:
   - {fileID: 2800000, guid: 9a4946ffb7e0249179761d51165a71dd, type: 3}

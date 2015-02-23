@@ -44,7 +44,7 @@ public class ScoreSystem:MonoBehaviour
 
     public bool PlayerDoingHighSpeed
     {
-        get { return PlayerSpeed > 65; }
+        get { return PlayerSpeed > 75; }
     }
 
     private bool PlayerIsOnRoad

@@ -4,11 +4,15 @@ using System.Collections;
 public class GameController : MonoBehaviour, IEventSubscriber
 {
 	private bool _deathScreen;
-	private bool paused = false;
+	private int pausedCounter;
+	private TextMesh counter;
+	private bool FirstStart = true;
 
     void Awake()
     {
         EventController.SubscribeToAllEvents(this);
+
+		counter = GameObject.Find("Text_Counter").GetComponent<TextMesh>();
     }
 
     void Start()
@@ -31,19 +35,22 @@ public class GameController : MonoBehaviour, IEventSubscriber
         switch (EventName)
         {
             case "gui.screen.pause":
-
                 if (!_deathScreen)
                 {
                     Time.timeScale = 0;
-					Time.fixedDeltaTime = 0.02f * Time.timeScale;
-					paused = true;
+					pausedCounter = -1;
                 }
                 GoogleAnalytics.Log("screen.main.pause");
                 break;
 
             case "gui.screen.game.show":
-            //    Time.timeScale = 1;
-				paused = false;
+				if (FirstStart)
+				{
+					FirstStart = false;
+					pausedCounter = 1;
+				}
+				else
+					pausedCounter = 200;
                 break;
 
             case "level.restart":
@@ -61,6 +68,7 @@ public class GameController : MonoBehaviour, IEventSubscriber
             case "car.player.death":
                                _deathScreen = true;
                 Time.timeScale = 0.2f;
+				Time.fixedDeltaTime = 0.02f * Time.timeScale;
 
                 int cs = (int)Sender.GetComponent<PlayerCarBehaviour>().Distance;
                 int os = PlayerPrefs.HasKey("Score")?PlayerPrefs.GetInt("Score"):0;
@@ -69,7 +77,6 @@ public class GameController : MonoBehaviour, IEventSubscriber
                 EventController.PostEvent("gui.hide",null);
                 EventController.PostEvent("gui.screen.findistance",null);
                 EventController.PostEvent("gui.screen.pause",null);
-
  
                 break;
         }
@@ -77,16 +84,16 @@ public class GameController : MonoBehaviour, IEventSubscriber
 
 	void Update()
 	{
-		if (paused == false && Time.timeScale < 1)
+		if (pausedCounter > 0)
 		{
-			Time.timeScale += 0.002f;
-			Time.fixedDeltaTime = 0.02f * Time.timeScale;
+			pausedCounter--;
+			counter.text = "" + pausedCounter/60;
+			counter.color = new Color(1,1,1,1);
 		}
-
-		if (Time.timeScale > 1)
+		else if (pausedCounter != -1)
 		{
-			paused = true;
 			Time.timeScale = 1;
+			counter.color = new Color(1,1,1,0);
 		}
 
 	}

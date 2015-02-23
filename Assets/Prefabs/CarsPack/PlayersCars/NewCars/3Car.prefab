@@ -589,7 +589,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100038}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 69.3978653, y: 72.8708801, z: -70.511879}
   m_LocalScale: {x: .850000024, y: .850000024, z: .850000024}
   m_Children:
   - {fileID: 400034}
@@ -1015,13 +1015,14 @@ MonoBehaviour:
   MaxMotorTorque: 70
   MaxBrakeTorque: 70
   MaxWheelsSteer: 5
-  MaxSpeed: 90
+  MaxSpeed: 97.5
   Friction: 5
   _rigidbody: {fileID: 0}
   COM: {x: 0, y: 0, z: 0}
   CurrentAcceleration: 0
   CurrentWheelsSteer: 0
   Nitro: 0
+  NitroPoints: 0
   throttle: 0
   Dead: 0
   CreateSkidmarks: 0
@@ -1078,7 +1079,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b68f86110c0c498f9a849266814c25c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CarBody: {fileID: 0}
+  CarBody: {fileID: 100030}
   MaterialIndex: 0
   Textures:
   - {fileID: 2800000, guid: 9a4946ffb7e0249179761d51165a71dd, type: 3}

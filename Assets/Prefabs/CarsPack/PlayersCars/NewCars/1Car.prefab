@@ -1013,14 +1013,16 @@ MonoBehaviour:
   PhysicRFWheel: {fileID: 14600006}
   PhysicRBWheel: {fileID: 14600002}
   MaxMotorTorque: 50
-  MaxBrakeTorque: 130
+  MaxBrakeTorque: 50
   MaxWheelsSteer: 5
-  MaxSpeed: 80
+  MaxSpeed: 82.5
   Friction: 5
+  _rigidbody: {fileID: 0}
   COM: {x: 0, y: 0, z: 0}
   CurrentAcceleration: 0
   CurrentWheelsSteer: 0
   Nitro: 0
+  NitroPoints: 0
   throttle: 0
   Dead: 0
   CreateSkidmarks: 0

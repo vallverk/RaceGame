@@ -1895,6 +1895,11 @@ MonoBehaviour:
   Car1: {fileID: 517583584}
   Car2: {fileID: 726637154}
   Car3: {fileID: 67136993}
+  Car4: {fileID: 0}
+  Car5: {fileID: 0}
+  Car6: {fileID: 0}
+  Car7: {fileID: 0}
+  Car8: {fileID: 0}
   SlideSound: {fileID: 8300000, guid: f6d6df66e08f94df19eb021308744147, type: 3}
   MainCamera: {fileID: 199631266}
   ShowScreenEvent: gui.screen.car

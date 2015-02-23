@@ -4,7 +4,12 @@ using System.Collections;
 [RequireComponent(typeof(CarDriver))]
 public class ScreenIC : MonoBehaviour, IEventSubscriber 
 {
-    private CarDriver _driver;
+	private bool IsAccelControl = true;
+	private CarDriver _driver;
+	private bool IsSteerLeft = false;
+	private bool IsSteerRight = false;
+	private bool IsAutoAccel = false;
+	private float _steer;
 
     void Awake()
     {
@@ -47,7 +52,33 @@ public class ScreenIC : MonoBehaviour, IEventSubscriber
             case "input.screen.time.up":
                 Time.timeScale = 1.0f;
                 break;
-        }
+			
+		case "input.button.left.pressed":
+			IsSteerLeft = true;
+			break;
+			
+		case "input.button.left.released":
+			IsSteerLeft = false;
+			break;
+			
+		case "input.button.right.pressed":
+			IsSteerRight = true;
+			break;
+			
+		case "input.button.right.released":
+			IsSteerRight = false;
+			break;
+
+		case "input.button.nitro.pressed":
+			_driver.Nitro = true;
+			_driver.NitroPoints--;
+			break;
+
+		case "input.button.nitro.released":
+			_driver.Nitro = false;
+			break;
+
+		}
     }
 
     #endregion
@@ -57,7 +88,41 @@ public class ScreenIC : MonoBehaviour, IEventSubscriber
 
         float steer = ConstantsStorage.I.ControlSensetivity.Evaluate(Input.acceleration.x);
 
-        _driver.CurrentWheelsSteer = Mathf.Clamp(Input.acceleration.x*steer, -1, 1);
-    }
+        if (IsAccelControl)
+			_driver.CurrentWheelsSteer = Mathf.Clamp(Input.acceleration.x * steer, -1, 1);
+		else
+		{
+
+		if (IsSteerLeft && !IsSteerRight)
+		{
+			if (_steer == 0)
+				_steer = -0.1f;
+			else
+				_steer -= (1 - Mathf.Abs(_steer));
+		}
+		else if (!IsSteerLeft && IsSteerRight)
+		{
+			if (_steer == 0)
+				_steer = 0.1f;
+			else
+				_steer += (1 - Mathf.Abs(_steer));
+		}
+		else
+		{
+			if (_steer > -0.1f && _steer < 0.1f)
+				_steer = 0;
+			else if (_steer < 0)
+				_steer += (1 - Mathf.Abs(_steer));
+			else if (_steer > 0)
+				_steer -= (1 - Mathf.Abs(_steer));
+		}
+
+		}
+
+		if (IsAutoAccel)
+		{
+			_driver.CurrentAcceleration = 1;
+		}
+	}
 
 }

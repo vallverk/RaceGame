@@ -43,7 +43,8 @@ public class CarDriver : MonoBehaviour
     [Range(-1,1)]
     public float CurrentWheelsSteer = 0;
 
-    public bool Nitro;
+	public bool Nitro;
+	public float NitroPoints;
 
     public float throttle;
 
@@ -127,10 +128,7 @@ public class CarDriver : MonoBehaviour
                 foreach (Renderer r in BreakingHeadLights)
                     r.enabled = true;
         }
-
-
     }
-
 
     void FixedUpdate()
     {
@@ -153,11 +151,6 @@ public class CarDriver : MonoBehaviour
             CurrentWheelsSteer = 0;
         }
 
-        if (CurrentAcceleration < 0)
-        {
-            Nitro = false;
-        }
-
         // some magic...
 		float steer = CurrentWheelsSteer * MaxWheelsSteer * SideSpeedMult;//*2.5f;
 
@@ -171,9 +164,10 @@ public class CarDriver : MonoBehaviour
 
         acceleration *= 0.5f;
 
-        if (Nitro)
+		if (Nitro && CurrentAcceleration > 0)
         {
             acceleration *= 2.5f;
+			NitroPoints--;
         }
 
         if (CurrentAcceleration > 0)
@@ -257,7 +251,7 @@ public class CarDriver : MonoBehaviour
     {
         if (CreateSkidmarks)
         {
-            if (_lastAcceleration > 0.4f && _rigidbody.velocity.z > 60 && CurrentAcceleration < 0)
+            if (_lastAcceleration > 0.4f && _rigidbody.velocity.z > 50 && CurrentAcceleration < 0)
             {
                 CreateSkidmark();
             }
@@ -352,22 +346,12 @@ public class CarDriver : MonoBehaviour
 	{
 		if (tag == "PlayerCar")
 		{
-/*
-			if (_rigidbody.transform.position.x > -7.3f && _rigidbody.transform.position.x < -6.7f)
-				SideSpeedMult = 1.5f;
-			else if (_rigidbody.transform.position.x > -2.7f && _rigidbody.transform.position.x < -2.1f)
-				SideSpeedMult = 1.5f;
-			else if (_rigidbody.transform.position.x > 2.1f && _rigidbody.transform.position.x < 2.7f)
-				SideSpeedMult = 1.5f;
-			else if (_rigidbody.transform.position.x > 6.7f && _rigidbody.transform.position.x < 7.3f)
-				SideSpeedMult = 1.5f;
-			else if (_rigidbody.transform.position.x > 7.3f)
-				_rigidbody.MovePosition(transform.position + new Vector3(-0.1f*Time.fixedDeltaTime, 0, 0));
-			else if (_rigidbody.transform.position.x < -7.3f)
-				_rigidbody.MovePosition(transform.position + new Vector3(0.1f*Time.fixedDeltaTime, 0, 0));
-			else
-				SideSpeedMult = 10.5f;
-*/
+			//
+            if (_rigidbody.velocity.z > 75 && NitroPoints < 500 && !Nitro)
+            {
+				NitroPoints++;
+            }
+
 			if (Mathf.Abs(_rigidbody.transform.position.x) > 0f && Mathf.Abs(_rigidbody.transform.position.x) < 4.8f)
 				SideSpeedMult = Mathf.Abs(_rigidbody.transform.position.x -2.4f) * 1f + 7f;
 			else if (Mathf.Abs(_rigidbody.transform.position.x) > 4.8f && Mathf.Abs(_rigidbody.transform.position.x) < 7.2f)

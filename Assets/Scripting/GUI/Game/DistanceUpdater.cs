@@ -23,7 +23,7 @@ public class DistanceUpdater : MonoBehaviour, IEventSubscriber
     {
         if (EventName == "update.gui.distance")
         {
-            _text.text = string.Format("{0}",((int)Sender.GetComponent<PlayerCarBehaviour>().Distance).ToString());
+            _text.text = string.Format("{0}",((int)(Sender.GetComponent<PlayerCarBehaviour>().Distance/3.25f)).ToString());
         }
     }
 
